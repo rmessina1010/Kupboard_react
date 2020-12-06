@@ -91,3 +91,5 @@ const siteData = {
         social: 6
     }
 }
+
+export default siteData;
