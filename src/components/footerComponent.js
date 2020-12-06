@@ -30,7 +30,7 @@ class SocialFooterLinks extends Component {
         if (this.props.children && this.props.children.forEach) {
             this.props.children.forEach((child) => {
                 children.push(
-                    <IconLink href={child.url} attrs={{ key: "footsocial" + child.key, target: "_blank", className: "text-primary btn" }} icon={{ icon: child.icon }} />
+                    <IconLink href={"http://" + child.url} attrs={{ key: "footsocial" + child.key, target: "_blank", className: "text-primary btn" }} icon={{ icon: child.icon }} />
                 );
             });
         }
