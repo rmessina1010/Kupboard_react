@@ -1,0 +1,128 @@
+import React, { Component } from 'react';
+import { Col, Row, Form, FormGroup, Label, Input, Button, Container } from 'reactstrap';
+import { StateSelect } from './selectOptsComponent';
+import MainWrap from './mainWrapComponent';
+
+import { kbRoster } from '../shared/KBroster';
+
+
+export class FindFormPlusList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            location: {
+                state: "WI"
+            }
+        };
+    }
+
+    render() {
+        let locations = Object.values(kbRoster);
+        if (this.state.location) {
+            locations = locations.filter(location =>
+                (!this.state.location.state || this.state.location.state === location.state) &&
+                (!this.state.location.zip || this.state.location.state === location.zip) &&
+                (!this.state.location.city || this.state.location.state === location.city)
+            );
+        }
+        return (
+            <React.Fragment>
+                <MainWrap>
+                    <FindForm />
+                </MainWrap>
+                <KBList list={locations} />
+            </React.Fragment >
+        );
+    }
+}
+
+export class FindForm extends Component {
+
+    render() {
+        return (
+            <Form id="locate" className="row pt-4 pb-2">
+                <Col className="h3 pb-1" xs="12" lg="3">
+                    <h2 className="text-center font-weight-light">Find a Cupboard Near&nbsp;You.</h2>
+                </Col>
+                <Col className="pt-1" sm="3" xs="12" lg="2">
+                    <FormGroup>
+                        <Label for="zip">ZIP Code</Label>
+                        <Input type="number" name="zip" id="zip" />
+                    </FormGroup>
+                </Col>
+                <Col className="pt-1" sm="6" md="4" xs="12" lg="3">
+                    <FormGroup>
+                        <Label for="city">City</Label>
+                        <Input type="text" name="city" id="city" />
+                    </FormGroup>
+                </Col>
+                <Col className="pt-1" sm="3" xs="12" lg="2">
+                    <FormGroup>
+                        <Label for="state">State</Label>
+                        <StateSelect name="state" id="state" required={true} />
+                    </FormGroup>
+                </Col>
+                <Col className="pt-3 pt-sm-1" md="2" xs="12">
+                    <Label className="d-none d-md-block">&nbsp;</Label>
+                    <Button color="primary" block name="search" id="search" value="search" className="mb-3">Search</Button>
+                </Col>
+            </Form>
+        );
+    }
+}
+
+export function KBList(props) {
+    return props.list ? (
+        <ul className="results-list">
+            {props.list.map(item => <KBListItem  {...item} />)}
+        </ul>
+    )
+        : (<div className="results-list text-center pb-3">No Kupboards active in this locality.</div>);
+}
+
+
+
+export function KBListItem({ img, alt, name, address, city, state, zip, itemTypeCt, hours, id }) {
+    img = img ? img : "default.jpg";
+    return (
+        <Container tag="li" fluid key={"KBListItem" + id} >
+            <a href={"/kupboard_view/" + id} className="container">
+                <Row tag="dl">
+                    <Col tag="dt" xs="12" md="3" lg="3">
+                        <img className="d-block img-thumbnail mb-3 mx-auto mx-md-0" src={img} alt={alt} />
+                    </Col>
+                    <Col tag="dt" xs="12" sm="6" md="5" lg="3" className="text-center text-sm-left">
+                        <h5 className="h4 font-weight-light">{name}</h5>
+                        <div>{address}</div>
+                        <div>{city}, {state} {zip}</div>
+                        <div
+                            className="badge-pill bg-info d-inline-block px-2 my-3 text-center font-weight-light text-white">
+                            {itemTypeCt} item types</div>
+                    </Col>
+                    <Col xs="12" sm="6" md="4" className="d-none d-sm-block">
+                        <ListSchedule hours={hours} />
+                    </Col>
+                </Row>
+            </a>
+        </Container>
+    );
+}
+
+
+export function ListSchedule({ hours }) {
+    return (
+        <ol className="list-unstyled" >
+            {
+                hours ? hours.map(hour => {
+                    return hour.day ?
+                        (<li className="schedule">
+                            <strong>{hour.day + (hour.toDay ? " - " + hour.toDay : "")}:</strong>
+                            <span>{hour.open} - {hour.close}</span>
+                        </li>)
+                        : null;
+                })
+                    : null
+            }
+        </ol >
+    )
+}

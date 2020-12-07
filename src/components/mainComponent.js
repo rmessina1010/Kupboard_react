@@ -9,7 +9,7 @@ import MainNav from './mainNavComponent';
 import { BrandCarousel, BrandJumbo } from './mastComponents';
 
 import HomeContent from './homeComponent';
-
+import findKupboard from './findPageComponent';
 
 class Main extends Component {
     render() {
@@ -33,6 +33,7 @@ class Main extends Component {
                 </header>
                 <Switch>
                     <Route exact path={["/", "/about"]} component={HomeContent} />
+                    <Route exact path="/find" component={findKupboard} />
                 </Switch>
                 <Footer pages={SiteData.pages} social={SiteData.social} info={SiteData.info} />
             </div>
