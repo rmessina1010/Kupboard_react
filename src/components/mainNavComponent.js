@@ -36,7 +36,7 @@ class MainNav extends Component {
 
         return (
             <div className="navbar-wrap sticky-top bg-info">
-                <Container className="container-fluid container-xl p-0 ">
+                <Container fluid="xl" className="p-0">
                     <Navbar dark expand="sm" >
                         <NavbarBrand href="index.html" className="text-hide main-logo ">
                             {this.props.siteName}
