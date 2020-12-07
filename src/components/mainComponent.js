@@ -8,6 +8,9 @@ import Footer from './footerComponent';
 import MainNav from './mainNavComponent';
 import { BrandCarousel, BrandJumbo } from './mastComponents';
 
+import HomeContent from './homeComponent';
+
+
 class Main extends Component {
     render() {
 
@@ -16,7 +19,6 @@ class Main extends Component {
             icon: 'fa fa-sign-in',
             isLogged: false
         }
-
 
         return (
             <div>
@@ -29,6 +31,9 @@ class Main extends Component {
                         <Route path="/dashboard/:kup" render={() => <BrandJumbo {...aboutBrandData} fadeType="bg-shadefade" />} />
                     </Switch>
                 </header>
+                <Switch>
+                    <Route exact path="/" component={HomeContent} />
+                </Switch>
                 <Footer pages={SiteData.pages} social={SiteData.social} info={SiteData.info} />
             </div>
         );
