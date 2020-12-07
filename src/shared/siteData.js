@@ -50,7 +50,7 @@ const siteData = {
         id: 1,
         text: "Home",
         icon: "fa fa-house",
-        url: "index.html",
+        url: "/",
         include: [],
         exclude: []
     },
@@ -58,7 +58,7 @@ const siteData = {
         id: 2,
         text: "About",
         icon: "fa fa-house",
-        url: "about.html",
+        url: "/about",
         include: [],
         exclude: []
     },
@@ -66,7 +66,7 @@ const siteData = {
         id: 3,
         text: "Find",
         icon: "fa fa-house",
-        url: "find.html",
+        url: "/find",
         include: [],
         exclude: []
     },
@@ -74,7 +74,7 @@ const siteData = {
         id: 4,
         text: "Join",
         icon: "fa fa-house",
-        url: "signup.html",
+        url: "/signup",
         include: [],
         exclude: []
     },
@@ -82,7 +82,7 @@ const siteData = {
         id: 5,
         text: "TOS",
         icon: "fa fa-doc",
-        url: "tos.html",
+        url: "/tos",
         include: ['footer'],
         exclude: []
     }],
