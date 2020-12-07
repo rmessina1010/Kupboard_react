@@ -15,7 +15,7 @@ class Main extends Component {
     render() {
 
         let logged = {
-            url: '/signup',
+            url: '/login',
             icon: 'fa fa-sign-in',
             isLogged: false
         }
@@ -32,7 +32,7 @@ class Main extends Component {
                     </Switch>
                 </header>
                 <Switch>
-                    <Route exact path="/" component={HomeContent} />
+                    <Route exact path={["/", "/about"]} component={HomeContent} />
                 </Switch>
                 <Footer pages={SiteData.pages} social={SiteData.social} info={SiteData.info} />
             </div>
