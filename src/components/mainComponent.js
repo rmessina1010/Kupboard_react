@@ -10,6 +10,7 @@ import { BrandCarousel, BrandJumbo } from './mastComponents';
 
 import HomeContent from './homeComponent';
 import findKupboard from './findPageComponent';
+import { LoginPage, SignUpPage } from './loginAndSignUpComponent';
 
 class Main extends Component {
     render() {
@@ -33,7 +34,9 @@ class Main extends Component {
                 </header>
                 <Switch>
                     <Route exact path={["/", "/about"]} component={HomeContent} />
-                    <Route exact path="/find" component={findKupboard} />
+                    <Route path="/login" component={LoginPage} />
+                    <Route path="/signup" component={SignUpPage} />
+                    <Route path="/find" component={findKupboard} />
                 </Switch>
                 <Footer pages={SiteData.pages} social={SiteData.social} info={SiteData.info} />
             </div>

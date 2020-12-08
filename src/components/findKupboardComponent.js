@@ -10,25 +10,38 @@ export class FindFormPlusList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            location: {
-                state: "WI"
-            }
+            city: null,
+            state: null,
+            zip: null,
         };
+        this.zipRef = React.createRef();
+        this.cityRef = React.createRef();
+        this.stateRef = React.createRef();
+    }
+
+    updateList = (event) => {
+        event.preventDefault();
+
+        let newLocation = {
+            zip: this.zipRef.current ? this.zipRef.current.value : null,
+            state: this.stateRef.current ? this.stateRef.current.value : null,
+            city: this.cityRef.current ? this.cityRef.current.value : null
+        };
+
+        this.setState(newLocation);
     }
 
     render() {
-        let locations = Object.values(kbRoster);
-        if (this.state.location) {
-            locations = locations.filter(location =>
-                (!this.state.location.state || this.state.location.state === location.state) &&
-                (!this.state.location.zip || this.state.location.state === location.zip) &&
-                (!this.state.location.city || this.state.location.state === location.city)
-            );
-        }
+
+        let locations = Object.values(kbRoster).filter(location =>
+            (!this.state.state || this.state.state === location.state) &&
+            (!this.state.zip || this.state.zip === location.zip) &&
+            (!this.state.city || this.state.city === location.city)
+        );
         return (
             <React.Fragment>
                 <MainWrap>
-                    <FindForm />
+                    <FindForm onSub={this.updateList} zipRef={this.zipRef} cityRef={this.cityRef} stateRef={this.stateRef} />
                 </MainWrap>
                 <KBList list={locations} />
             </React.Fragment >
@@ -40,33 +53,33 @@ export class FindForm extends Component {
 
     render() {
         return (
-            <Form id="locate" className="row pt-4 pb-2">
+            <Form id="locate" className="row pt-4 pb-2" onSubmit={event => this.props.onSub(event)}>
                 <Col className="h3 pb-1" xs="12" lg="3">
                     <h2 className="text-center font-weight-light">Find a Cupboard Near&nbsp;You.</h2>
                 </Col>
                 <Col className="pt-1" sm="3" xs="12" lg="2">
                     <FormGroup>
                         <Label for="zip">ZIP Code</Label>
-                        <Input type="number" name="zip" id="zip" />
+                        <Input type="number" name="zip" id="zip" innerRef={this.props.zipRef} />
                     </FormGroup>
                 </Col>
-                <Col className="pt-1" sm="6" md="4" xs="12" lg="3">
+                <Col className="pt-1" sm="6" md="4" xs="12" lg="3" >
                     <FormGroup>
                         <Label for="city">City</Label>
-                        <Input type="text" name="city" id="city" />
+                        <Input type="text" name="city" id="city" innerRef={this.props.cityRef} />
                     </FormGroup>
                 </Col>
                 <Col className="pt-1" sm="3" xs="12" lg="2">
                     <FormGroup>
                         <Label for="state">State</Label>
-                        <StateSelect name="state" id="state" required={true} />
+                        <StateSelect name="state" id="state" passRef={this.props.stateRef} />
                     </FormGroup>
                 </Col>
                 <Col className="pt-3 pt-sm-1" md="2" xs="12">
                     <Label className="d-none d-md-block">&nbsp;</Label>
                     <Button color="primary" block name="search" id="search" value="search" className="mb-3">Search</Button>
                 </Col>
-            </Form>
+            </Form >
         );
     }
 }

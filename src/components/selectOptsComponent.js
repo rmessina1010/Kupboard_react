@@ -2,20 +2,20 @@ import React from 'react';
 import { Input } from 'reactstrap';
 import { statesList } from '../shared/statelist'
 
-export function StateSelect({ name, id, classes, required, value }) {
+export function StateSelect({ name, id, classes, required, value, passRef }) {
     let selClass = "custom-select" + (classes ? classes : '');
     return (
-        <Input type="select" name={name} id={id} className={selClass} required={required} value={value}>
+        <Input type="select" name={name} id={id} className={selClass} required={required} value={value} innerRef={passRef}>
             <option value="">Select:</option>
             {statesList ? (statesList.map(st => <option value={st.abr}>{st.abr}</option>)) : null}
         </Input>
     );
 }
 
-export function DaySelect({ name, id, classes, required, value }) {
+export function DaySelect({ name, id, classes, required, value, passRef }) {
     let selClass = "custom-select" + (classes ? classes : '');
     return (
-        <Input type="select" name={name} id={id} className={selClass} required={required} value={value}>
+        <Input type="select" name={name} id={id} className={selClass} required={required} value={value} innerRef={passRef}>
             <option value="">Day:</option>
             <option value="Mon.">Mon</option>
             <option value="Tue.">Tue</option>
