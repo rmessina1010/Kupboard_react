@@ -6,9 +6,10 @@ import {
     NavbarBrand,
     Nav,
     NavItem,
-    NavLink,
     Container
 } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
+
 
 class MainNav extends Component {
 
@@ -27,7 +28,7 @@ class MainNav extends Component {
                 if ((child.include.indexOf("main") < 0 && child.include.length) || child.exclude.indexOf("main") > -1) { return; }
                 items.push(
                     <NavItem key={'mainNavItem' + child.id}  >
-                        <NavLink href={child.url} active={child.url === this.props.url}>{child.text}</NavLink>
+                        <NavLink to={child.url} active={child.url === this.props.url} className="nav-link">{child.text}</NavLink>
                     </NavItem>
                 );
             });
@@ -41,7 +42,7 @@ class MainNav extends Component {
                         <NavbarBrand href="index.html" className="text-hide main-logo ">
                             {this.props.siteName}
                         </NavbarBrand>
-                        <NavLink className="ml-auto text-white" href={this.state.logged.url}>
+                        <NavLink className="ml-auto text-white nav-link" to={this.state.logged.url}>
                             <i className={this.state.logged.icon} aria-hidden="true"></i>
                         </NavLink>
                         <NavbarToggler onClick={toggle} />

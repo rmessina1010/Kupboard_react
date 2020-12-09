@@ -1,8 +1,6 @@
 export let kbRoster =
-
-
 {
-    1: {
+    kup_1: {
         img: "curbapeal.jpg",
         alt: "curbapeal",
         mast: "curbmast.jpg",
@@ -25,10 +23,11 @@ export let kbRoster =
         userName: "Roger",
         userLastName: "Smith",
         userEmail: "rs@email.com",
+        map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2952.225782843878!2d-89.08652298454645!3d42.27370347919271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8808be329a526b9b%3A0x161b80f6a0c78725!2s628%20N%201st%20St%2C%20Rockford%2C%20IL%2061107!5e0!3m2!1sen!2sus!4v1603439328990!5m2!1sen!2sus",
         id: 1
     },
 
-    2: {
+    kup_2: {
         img: "curbapeal.jpg",
         alt: "curbapeal",
         mast: "curbmast.jpg",
@@ -51,10 +50,11 @@ export let kbRoster =
         userName: "Roger",
         userLastName: "Smith",
         userEmail: "rs@email.com",
+        map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2952.225782843878!2d-89.08652298454645!3d42.27370347919271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8808be329a526b9b%3A0x161b80f6a0c78725!2s628%20N%201st%20St%2C%20Rockford%2C%20IL%2061107!5e0!3m2!1sen!2sus!4v1603439328990!5m2!1sen!2sus",
         id: 2
     },
 
-    3: {
+    kup_3: {
         img: "curbapeal.jpg",
         alt: "curbapeal",
         mast: "curbmast.jpg",
@@ -77,10 +77,11 @@ export let kbRoster =
         userName: "Roger",
         userLastName: "Smith",
         userEmail: "rs@email.com",
+        map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2952.225782843878!2d-89.08652298454645!3d42.27370347919271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8808be329a526b9b%3A0x161b80f6a0c78725!2s628%20N%201st%20St%2C%20Rockford%2C%20IL%2061107!5e0!3m2!1sen!2sus!4v1603439328990!5m2!1sen!2sus",
         id: 3
     },
 
-    4: {
+    kup_4: {
         img: "curbapeal.jpg",
         alt: "curbapeal",
         mast: "curbmast.jpg",
@@ -103,9 +104,10 @@ export let kbRoster =
         userName: "Roger",
         userLastName: "Smith",
         userEmail: "rs@email.com",
+        map: false,
         id: 4
     },
-    5: {
+    kup_5: {
         img: "curbapeal.jpg",
         alt: "curbapeal",
         mast: "curbmast.jpg",
@@ -128,41 +130,118 @@ export let kbRoster =
         userName: "Roger",
         userLastName: "Smith",
         userEmail: "rs@email.com",
+        map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2952.225782843878!2d-89.08652298454645!3d42.27370347919271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8808be329a526b9b%3A0x161b80f6a0c78725!2s628%20N%201st%20St%2C%20Rockford%2C%20IL%2061107!5e0!3m2!1sen!2sus!4v1603439328990!5m2!1sen!2sus",
         id: 4
     }
 
 };
 
-export let kbComments = {
-    Comments_2: [
-        {
-            comID: 2_1,
-            inKB: 2,
-            title: 'A coment title for 2_1',
-            text: 'This is the coment text..lorem ipsum'
-        },
-        {
-            comID: 2_2,
-            inKB: 2,
-            title: 'A coment title for 2_1',
-            text: 'This is the coment text..lorem ipsum'
-        }
-    ]
+export let kbItems = {
+    itemsIn_2: {
+        nextid: 10,
+        inventory:
+            [
+                {
+                    itemID: 2_1,
+                    inKB: 2,
+                    name: 'an item 1',
+                    req: false,
+                    active: true,
+                    qty: 5
+                },
+                {
+                    itemID: 2_2,
+                    inKB: 2,
+                    name: 'an item 1',
+                    req: false,
+                    active: true,
+                    qty: 10
+                },
+                {
+                    itemID: 2_3,
+                    inKB: 2,
+                    name: 'an item 1',
+                    req: false,
+                    active: true,
+                    qty: 55
+                },
+                {
+                    itemID: 2_4,
+                    inKB: 2,
+                    name: 'an item 1',
+                    req: false,
+                    active: true,
+                    qty: 100
+                },
+                {
+                    itemID: 2_5,
+                    inKB: 2,
+                    name: 'a request',
+                    req: true,
+                    active: true,
+                    qty: 11
+                },
+                {
+                    itemID: 2_6,
+                    inKB: 2,
+                    name: 'out of stock request',
+                    req: true,
+                    active: true,
+                    qty: 0
+                },
+                {
+                    itemID: 2_7,
+                    inKB: 2,
+                    name: 'also a request',
+                    req: false,
+                    active: true,
+                    qty: 15
+                },
+                {
+                    itemID: 2_8,
+                    inKB: 2,
+                    name: 'am hidden',
+                    req: false,
+                    active: false,
+                    qty: 20
+                },
+                {
+                    itemID: 2_9,
+                    inKB: 2,
+                    name: 'an item 1',
+                    req: false,
+                    active: true,
+                    qty: 50
+                },
+                {
+                    itemID: 2_10,
+                    inKB: 2,
+                    name: 'an item 1',
+                    req: false,
+                    active: true,
+                    qty: 105
+                },
+            ]
+    }
 }
 
-export let kbItems = {
-    Comments_2: [
-        {
-            comID: 2_1,
-            inKB: 2,
-            title: 'A coment title for 2_1',
-            text: 'This is the coment text..lorem ipsum'
-        },
-        {
-            comID: 2_2,
-            inKB: 2,
-            title: 'A coment title for 2_1',
-            text: 'This is the coment text..lorem ipsum'
-        }
-    ]
+export let kbAnnounce = {
+    commentsIn_2: {
+        nextID: 3,
+        announce:
+            [
+                {
+                    comID: 2_1,
+                    inKB: 2,
+                    title: 'A coment title for 2_1',
+                    text: 'This is the coment text..lorem ipsum'
+                },
+                {
+                    comID: 2_2,
+                    inKB: 2,
+                    title: 'A coment title for 2_1',
+                    text: 'This is the coment text..lorem ipsum'
+                }
+            ]
+    }
 }

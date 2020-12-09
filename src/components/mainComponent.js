@@ -11,6 +11,7 @@ import { BrandCarousel, BrandJumbo } from './mastComponents';
 import HomeContent from './homeComponent';
 import findKupboard from './findPageComponent';
 import { LoginPage, SignUpPage } from './loginAndSignUpComponent';
+import ViewKBPage from './viewKBPageComponent';
 
 class Main extends Component {
     render() {
@@ -37,6 +38,8 @@ class Main extends Component {
                     <Route path="/login" component={LoginPage} />
                     <Route path="/signup" component={SignUpPage} />
                     <Route path="/find" component={findKupboard} />
+                    <Route path="/kupboard_view/:kup" component={ViewKBPage} />
+
                 </Switch>
                 <Footer pages={SiteData.pages} social={SiteData.social} info={SiteData.info} />
             </div>

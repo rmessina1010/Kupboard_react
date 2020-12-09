@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 class IconLink extends Component {
     render() {
-        return (
-            <a href={this.props.href} {...this.props.attrs}>{this.props.childBef}<i className={this.props.icon.icon} {...this.props.icon.attrs} />{this.props.childAft}</a>
-        );
+        return (this.props.href.substr(0, 4) === 'http') ?
+            (<a href={this.props.href} {...this.props.attrs}>{this.props.childBef}<i className={this.props.icon.icon} {...this.props.icon.attrs} />{this.props.childAft}</a>)
+            : (<NavLink to={this.props.href} {...this.props.attrs}>{this.props.childBef}<i className={this.props.icon.icon} {...this.props.icon.attrs} />{this.props.childAft}</NavLink>);
     }
 }
 
 
 class AnchorLink extends Component {
     render() {
-        return (
-            <a href={this.props.href} {...this.props.attrs}>
+        return (this.props.href.substr(0, 4) === 'http') ?
+            (<a href={this.props.href} {...this.props.attrs}>
                 {this.props.children}
-            </a>
-        );
+            </a>)
+            : (<NavLink to={this.props.href} {...this.props.attrs}>
+                {this.props.children}
+            </NavLink>);
     }
 }
 
