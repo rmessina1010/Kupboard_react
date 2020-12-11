@@ -39,7 +39,7 @@ class MainNav extends Component {
             <div className="navbar-wrap sticky-top bg-info">
                 <Container fluid="xl" className="p-0">
                     <Navbar dark expand="sm" >
-                        <NavbarBrand href="index.html" className="text-hide main-logo ">
+                        <NavbarBrand href="/" className="text-hide main-logo ">
                             {this.props.siteName}
                         </NavbarBrand>
                         <NavLink className="ml-auto text-white nav-link" to={this.state.logged.url}>

@@ -10,10 +10,11 @@ import {
     Button,
 } from 'reactstrap';
 
+import { kbRoster } from '../shared/KBroster';
+
 
 
 export function BrandJumbo(props) {
-    console.log(props);
 
     return (
         < div class="brand-wrap" >
@@ -26,11 +27,36 @@ export function BrandJumbo(props) {
     );
 }
 
+export function UserJumbo(props) {
+    let kup = props.match ? kbRoster['kup_' + props.match.params.kup] : false;
+    kup = kup ? kup : {
+        mast: "default.jpg",
+        mastAlt: "missing kupoard",
+        name: "Oops!",
+        details: "That Kupboard doesn't exist",
+        share: null,
+        missing: true
+    };
+    let btnText = "Share Page";
+    let detailText = kup.details;
+    if (kup && !kup.missing && props.match.path.indexOf('/dash/') > -1) {
+        kup.share = '/view/' + props.match.params.kup;
+        btnText = "View Kupboard";
+        detailText = "Edit your Kupboard here.";
+    }
+
+    let share = kup.share ? { txt: btnText, url: kup.share, attrs: { target: '_blank' } } : null;
+
+    return (
+        <BrandJumbo {...props} imagSet={kup.mast} title={kup.name} text={detailText} button={share} />
+    );
+}
 
 
 export class MastheadSlide extends Component {
     render() {
         let { imageSet, title, text, button, fadeType } = this.props;
+        if (!Array.isArray(imageSet)) { imageSet = imageSet ? [imageSet] : []; }
         let picture = null;
         let addClass = '';
         const breakPoints = [576, 768, 992, 1200];
@@ -54,15 +80,15 @@ export class MastheadSlide extends Component {
             addClass += ' card-img-overlay';
         }
         addClass += fadeType ? ' ' + fadeType : '';
-        let buttonComponent = button ? <Button tag="a" href={button.url} clildren={button.txt} {...button.attrs} /> : null;
-
+        let buttonComponent = button ? <Button tag="a" href={button.url} children={button.txt} {...button.attrs} color="primary" /> : null;
+        let slideText = text ? <p className="lead d-none d-md-block txt-over-bg ">{text}</p> : null;
         return (
             <React.Fragment>
                 {picture}
                 <div className={"row no-gutters align-items-center " + addClass}>
                     <div className="col-sm-8 col-md-6 ml-4 text-sm-left text-center">
                         <h2 className="display-4 text-center text-sm-left txt-over-bg pt-4 pt-sm-0">{title}</h2>
-                        <p className="lead d-none d-md-block txt-over-bg ">{text} and some text</p>
+                        {slideText}
                         {buttonComponent}
                     </div>
                 </div>

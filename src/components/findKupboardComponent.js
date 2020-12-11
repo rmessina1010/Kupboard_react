@@ -99,7 +99,7 @@ export function KBListItem({ img, alt, name, address, city, state, zip, itemType
     img = img ? img : "default.jpg";
     return (
         <Container tag="li" fluid key={"KBListItem" + id} >
-            <a href={"/kupboard_view/" + id} className="container">
+            <a href={"/view/" + id} className="container">
                 <Row tag="dl">
                     <Col tag="dt" xs="12" md="3" lg="3">
                         <img className="d-block img-thumbnail mb-3 mx-auto mx-md-0" src={img} alt={alt} />

@@ -6,12 +6,13 @@ import { brandCarouselData, aboutBrandData } from '../shared/brandData';
 
 import Footer from './footerComponent';
 import MainNav from './mainNavComponent';
-import { BrandCarousel, BrandJumbo } from './mastComponents';
+import { BrandCarousel, BrandJumbo, UserJumbo } from './mastComponents';
 
 import HomeContent from './homeComponent';
 import findKupboard from './findPageComponent';
 import { LoginPage, SignUpPage } from './loginAndSignUpComponent';
 import ViewKBPage from './viewKBPageComponent';
+import DashboardPage from './dashboardPageComponent';
 
 class Main extends Component {
     render() {
@@ -25,21 +26,21 @@ class Main extends Component {
         return (
             <div>
                 <header>
-                    <MainNav url="index.html" children={SiteData.pages} logged={logged} siteName={SiteData.info.siteName} />
+                    <MainNav url="/" children={SiteData.pages} logged={logged} siteName={SiteData.info.siteName} />
                     <Switch>
-                        <Route exact path="/" render={() => <BrandCarousel items={brandCarouselData} />} />
-                        <Route path="/about" render={() => <BrandJumbo {...aboutBrandData} fadeType="bg-shadefade" />} />
-                        <Route path="/view/:kup" render={() => <BrandJumbo {...aboutBrandData} fadeType="bg-shadefade" />} />
-                        <Route path="/dashboard/:kup" render={() => <BrandJumbo {...aboutBrandData} fadeType="bg-shadefade" />} />
+                        <Route exact path={["/", "/view/"]} render={() => <BrandCarousel items={brandCarouselData} />} />
+                        <Route path="/about/" render={() => <BrandJumbo {...aboutBrandData} fadeType="bg-shadefade" />} />
+                        <Route path={["/view/:kup", "/dash/:kup"]} render={(rprops) => <UserJumbo fadeType="bg-shadefade" {...rprops} />} />
                     </Switch>
                 </header>
                 <Switch>
-                    <Route exact path={["/", "/about"]} component={HomeContent} />
-                    <Route path="/login" component={LoginPage} />
-                    <Route path="/signup" component={SignUpPage} />
-                    <Route path="/find" component={findKupboard} />
-                    <Route path="/kupboard_view/:kup" component={ViewKBPage} />
-
+                    <Route exact path={["/", "/about/", "/view/"]} component={HomeContent} />
+                    <Route path="/login/" component={LoginPage} />
+                    <Route exact path={["/signup/", "/dash/"]} component={SignUpPage} />
+                    <Route path="/find/" component={findKupboard} />
+                    <Route path="/view/:kup" component={ViewKBPage} />
+                    <Route path="/dash/:kup" component={DashboardPage} />
+                    <Redirect to="/" />
                 </Switch>
                 <Footer pages={SiteData.pages} social={SiteData.social} info={SiteData.info} />
             </div>
