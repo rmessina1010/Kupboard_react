@@ -1,9 +1,9 @@
 export let kbRoster =
 {
     kup_1: {
-        img: "curbapeal.jpg",
+        img: "/assets/increase-curb-appeal.jpg",
         alt: "curbapeal",
-        mast: "curbmast.jpg",
+        mast: "/assets/user_mast_1140x440.jpg",
         mastAlt: "curbmast",
         name: "Test Kupboard #1",
         address: "628 Beford Ave",
@@ -28,9 +28,9 @@ export let kbRoster =
     },
 
     kup_2: {
-        img: "curbapeal.jpg",
+        img: "/assets/increase-curb-appeal.jpg",
         alt: "curbapeal",
-        mast: "curbmast.jpg",
+        mast: "/assets/user_mast_1140x440.jpg",
         mastAlt: "curbmast",
         name: "Test Kupboard #2",
         address: "628 Beford Ave",
@@ -55,9 +55,9 @@ export let kbRoster =
     },
 
     kup_3: {
-        img: "curbapeal.jpg",
+        img: "/assets/increase-curb-appeal.jpg",
         alt: "curbapeal",
-        mast: "curbmast.jpg",
+        mast: "/assets/user_mast_1140x440.jpg",
         mastAlt: "curbmast",
         name: "Test Kupboard #3",
         address: "1868 Beford Ave",
@@ -82,9 +82,9 @@ export let kbRoster =
     },
 
     kup_4: {
-        img: "curbapeal.jpg",
+        img: "/assets/increase-curb-appeal.jpg",
         alt: "curbapeal",
-        mast: "curbmast.jpg",
+        mast: "/assets/user_mast_1140x440.jpg",
         mastAlt: "curbmast",
         name: "Test Kupboard #4",
         address: "628 Beford Ave",
@@ -108,9 +108,9 @@ export let kbRoster =
         id: 4
     },
     kup_5: {
-        img: "curbapeal.jpg",
+        img: "/assets/increase-curb-appeal.jpg",
         alt: "curbapeal",
-        mast: "curbmast.jpg",
+        mast: "/assets/user_mast_1140x440.jpg",
         mastAlt: "curbmast",
         name: "Test Kupboard #5",
         address: "628 Beford Ave",
@@ -227,7 +227,7 @@ export let kbItems = {
 
 export let kbAnnounce = {
     commentsIn_2: {
-        nextID: 3,
+        nextID: 4,
         announce:
             [
                 {
@@ -239,7 +239,13 @@ export let kbAnnounce = {
                 {
                     comID: 2_2,
                     inKB: 2,
-                    title: 'A coment title for 2_1',
+                    title: 'A coment title for 2_2',
+                    text: 'This is the coment text..lorem ipsum'
+                },
+                {
+                    comID: 2_3,
+                    inKB: 2,
+                    title: 'A coment title for 2_3',
                     text: 'This is the coment text..lorem ipsum'
                 }
             ]

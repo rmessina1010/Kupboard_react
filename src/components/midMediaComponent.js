@@ -8,7 +8,7 @@ export class MidMedia extends Component {
         blurbs = blurbs.map(blurb => <p>{blurb}</p>);
         return (
             <Media className="row py-4 align-items-center d-block d-md-flex">
-                <Media object className="align-self-center mb-3 mx-auto d-block" data-src={this.props.img} alt={this.props.alt} />
+                <Media object className="align-self-center mb-3 mx-auto d-block" src={this.props.img} alt={this.props.alt} />
                 <Media body className="col-md-8 mx-auto order-md-2">
                     <Media heading tag="h3" className="text-info  text-center text-md-left">{this.props.heading}</Media>
                     {blurbs}

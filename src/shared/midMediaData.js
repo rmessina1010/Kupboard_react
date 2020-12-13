@@ -1,5 +1,5 @@
 export let midPageData = {
-    img: "media/ images / bread - 280x300.png",
+    img: "/assets/bread-280x300.png",
     alt: "Generic placeholder image",
     heading: "Missing Hand Bread image Headline",
     url: "#",

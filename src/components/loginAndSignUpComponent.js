@@ -44,11 +44,11 @@ export function LoginContainer(props) {
 
     let header = props.children.length > 1 ?
         <div className="no-gutters">
-            <CardImg className="center-logo-50" src="media/images/Kupboard_logo_gray.svg" alt="Kupboard_logo" />
+            <CardImg className="center-logo-50" src="assets/Kupboard_logo_gray.svg" alt="Kupboard_logo" />
             <h2 className="h4 text-center font-weight-lighter">Kreate a new kupboard.</h2>
         </div>
         : <React.Fragment>
-            <CardImg className="center-logo-50" src="media/images/Kupboard_logo_gray.svg" alt="Kupboard_logo" />
+            <CardImg className="center-logo-50" src="assets/Kupboard_logo_gray.svg" alt="Kupboard_logo" />
             <h2 className="h4 text-center bottom-rule font-weight-lighter">Log In</h2>
         </React.Fragment >
 

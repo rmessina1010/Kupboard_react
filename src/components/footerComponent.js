@@ -11,7 +11,7 @@ class FooterLinks extends Component {
                 if ((child.include.indexOf("footer") < 0 && child.include.length) || child.exclude.indexOf("footer") > -1) { return; }
                 if (!this.props.noPipes && children.length > 0) { children.push(" | "); }
                 children.push(
-                    <AnchorLink href={child.url} children={child.text} attrs={{ key: "footnavlink" + child.key }} />
+                    <AnchorLink href={child.url} children={child.text} key={"footnavlink" + child.id} />
                 );
             });
         }
@@ -30,7 +30,7 @@ class SocialFooterLinks extends Component {
         if (this.props.children && this.props.children.forEach) {
             this.props.children.forEach((child) => {
                 children.push(
-                    <IconLink href={"http://" + child.url} attrs={{ key: "footsocial" + child.key, target: "_blank", className: "text-primary btn" }} icon={{ icon: child.icon }} />
+                    <IconLink href={"http://" + child.url} key={"footsocial" + child.id} attrs={{ target: "_blank", className: "text-primary btn" }} icon={{ icon: child.icon }} />
                 );
             });
         }

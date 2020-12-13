@@ -26,6 +26,10 @@ export class DashForm extends Component {
         elName = elName.split('[');
         elName = elName[0];
         switch (elName) {
+            case "fa fa-close delcomm":
+                newStateProp = this.state.announcements.splice(index, 1);
+                update = true;
+                break;
             case "commentTitle":
                 newStateProp = this.state.announcements;
                 newStateProp[index].title = val;
@@ -281,7 +285,7 @@ export function CommentItem({ text, title, change, index, com_ID }) {
 
 export function DaySchedule(props) {
     return (
-        <Row className="kup-hour">
+        <Row className="kup-hour" key={props.index}>
             <Col xs="12" sm="6" md="12" lg="6" className="mb-1 pr-lg-3 pr-md-0 pr-sm-3">
                 <InputGroup>
                     <div className="input-group-prepend">
