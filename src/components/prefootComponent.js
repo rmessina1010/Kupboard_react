@@ -14,7 +14,7 @@ export class Prefoot extends Component {
             let heading = this.props.heading ? (<h5 className="text-info">{this.props.heading}</h5>) : null;
             let map = this.props.map
             if (map) {
-                map = (<iframe src={map} width="100%" height="300px" frameborder="0" style={{ border: '5px #fff solid;' }} allowfullscreen="" aria-hidden="false" tabindex="0" ></iframe >)
+                map = (<iframe title="map" src={map} width="100%" height="300px" frameborder="0" style={{ border: '5px #fff solid;' }} allowfullscreen="" aria-hidden="false" tabindex="0" ></iframe >)
             }
             prefootContent = (<Container fluid>
                 <Row>

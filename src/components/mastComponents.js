@@ -70,7 +70,7 @@ export class MastheadSlide extends Component {
         });
 
         if (imageSet.length) {
-            images.push((<img src={defaultImg.src} className="d-block w-100" />));
+            images.push((<img src={defaultImg.src} alt="" className="d-block w-100" />));
             picture = (
                 <picture className="d-block w-100">
                     {images}

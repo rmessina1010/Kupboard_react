@@ -8,8 +8,8 @@ export const brandCarouselData =
             { src: "/assets/Pantry_1-1140x440.jpg", bp: 1200, alt: "some alt" }
         ],
         fadeType: "bg-shadefade",
-        title: "Carousle slide #1",
-        text: ["some text goes here ", <a href='/assets/logo192.png'>aaa</a>],
+        title: "Carousel slide #1",
+        text: ["Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."],
         id: 1
 
     },
@@ -22,8 +22,8 @@ export const brandCarouselData =
             { src: "/assets/foodsort-1140x440.jpg", bp: 1200, alt: "some alt" }
         ],
         fadeType: "bg-shadefade",
-        title: "Carousle slide #2",
-        text: ["some text goes here ", <a href='/assets/logo192.png'>aaa</a>],
+        title: "Carousel slide #2",
+        text: ["Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."],
         id: 2
 
     },
@@ -36,8 +36,8 @@ export const brandCarouselData =
             { src: "/assets/hungry-kid_1140x440.jpg", bp: 1200, alt: "some alt" }
         ],
         fadeType: "bg-shadefade",
-        title: "Carousle slide #3",
-        text: ["some text goes here ", <a href='/assets/logo192.png'>aaa</a>],
+        title: "Carousel slide #3",
+        text: ["Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."],
         id: 3
 
     },
@@ -52,7 +52,7 @@ export const aboutBrandData = {
         { src: "/assets/pantry-volunteer_960x400.jpg", bp: 992, alt: "some alt" },
         { src: "/assets/pantry-volunteer_1140x440.jpg", bp: 1200, alt: "some alt" }
     ],
-    title: "my title",
-    text: ["some text goes here ", (<a href='/assets/logo192.png'>aaa</a>)]
+    title: "Something Motivational Goes Here.",
+    text: ["Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", (<a href='/assets/logo192.png'> sample text link</a>)]
 }
 

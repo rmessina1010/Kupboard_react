@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Prefoot } from './prefootComponent';
-import { FindFormPlusList, KBList } from './findKupboardComponent';
+import { FindFormPlusList } from './findKupboardComponent';
 
 import { genericPrefoot } from '../shared/prefootData';
 

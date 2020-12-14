@@ -27,7 +27,7 @@ body {
 }
 
 .navbar-toggler {
-	padding: .2em .4em;
+	padding: 0 .4em .2em .4em ;
 }
 
 
@@ -46,7 +46,7 @@ body {
 	text-align: center;
 	font-size: 135%;
 	line-height: 1.1;
-	font-weight: lighter;
+	font-weight: 300;
 }
 
 .prefoot .col-12.lead p {
@@ -98,6 +98,7 @@ body {
 
 .navbar-wrap .navbar a  {
 	text-shadow: 0 1px 0 rgba(255, 255, 255, .4);
+	font-weight: 400;
 }
 .navbar-wrap .navbar a.nav-link, .navbar a .fa-sign-in{
 	color: rgba(255,255,255,.5);
@@ -428,4 +429,22 @@ box-shadow:none ;
 
 .brand-wrap .branding .card-img-overlay {
 	border-radius: 0;
+}
+
+
+@media screen and ( max-width:575px){
+.navbar-wrap ul.navbar-nav  {
+ margin-bottom: -.5em;
+ }
+.navbar-wrap ul.navbar-nav li {
+	background: rgba(0,0,0,.1);
+	border-top: 1px solid rgba(0,0,0,.15);
+}
+	.navbar-wrap ul.navbar-nav li+li {
+	border-top:none;
+}
+	.navbar-wrap ul.navbar-nav li:hover {
+	background: rgba(0,0,0,.2);
+}
+
 }

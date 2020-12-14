@@ -13,8 +13,10 @@ export class DashForm extends Component {
             next_item: this.props.next_item,
             announcements: this.props.comments,
             items: this.props.items,
+            submit: null,
             ...this.props.kupboard
         }
+        this.submitAction = null;
     }
 
     handleChange = (event, index) => {
@@ -85,6 +87,18 @@ export class DashForm extends Component {
                 newStateProp = { zip: val };
                 update = true;
                 break;
+            case "oldPass":
+                newStateProp = { oldPass: val };
+                update = true;
+                break;
+            case "newPass":
+                newStateProp = { newPass: val };
+                update = true;
+                break;
+            case "confirmPass":
+                newStateProp = { confirmPass: val };
+                update = true;
+                break;
             case "email":
                 newStateProp = { userEmail: val };
                 update = true;
@@ -145,7 +159,6 @@ export class DashForm extends Component {
             {
                 itemID: this.state.kb_id + "_" + this.state.next_ann,
                 inKB: this.state.kb_id,
-                inKB: 2,
                 name: 'NEW item ',
                 req: false,
                 active: true,
@@ -158,16 +171,27 @@ export class DashForm extends Component {
         });
     }
 
+    handleSubmit(event) {
+        event.preventDefault();
+        let message = "Your Kupboard account has been " + (
+            this.submitAction === 'killKup' ? "deleted." :
+                "updated.\n" + JSON.stringify(this.state)
+        );
+        this.submitAction = false;
+        alert(message);
+    }
+
     render() {
         let { kupboard } = this.props;
         return (
-            <Form className="py-3" >
+            <Form className="py-3" onSubmit={values => this.handleSubmit(values)}>
+
                 <Row>
                     <Col sm="12" md="6">
                         <h5 className="dash-header">Inventory</h5>
                         <button type="button" className="btn btn-secondary mt-2 mr-3" id="addItem" onClick={this.addItem}>Add Item</button>
-                        <button type="submit" className="btn btn-primary mt-2" id="updateKtop" value="updateK">Update
-						Kupboard</button>
+                        <button type="submit" className="btn btn-primary mt-2" id="updateKtop" value="updateK" onClick={
+                            this.submitAction = "updateK"}>Update Kupboard</button>
                         <div className="d-flex mt-3">
                             <div className="form-control font-weight-light bg-transparent border-0">Item</div>
                             <div className="form-control font-weight-light bg-transparent border-0 w-5rem ">Qty.</div>
@@ -257,8 +281,30 @@ export class DashForm extends Component {
                         </FormGroup>
 
                         <h5 className="dash-header">Account</h5>
-                        <Button color="secondary" className="mr-3" name="killKup" id="killKup" value="killKup">Delete Kupboard</Button>
-                        <Button type="submit" color="primary" id="updateKbottom" value="updateK">Update Kupboard</Button>
+                        <Row className="pb-2">
+                            <Col xs="12" lg="4">
+                                <FormGroup>
+                                    <Label htmlFor="oldPass" >Old Password</Label>
+                                    <Input type="text" name="oldPass" id="oldPass" value={this.state.oldPass} onChange={this.handleChange} />
+                                </FormGroup>
+                            </Col>
+                            <Col xs="12" md="6" lg="4">
+                                <FormGroup>
+                                    <Label htmlFor="newPass" >New Password</Label>
+                                    <Input type="text" name="newPass" id="newPass" value={this.state.newPass} onChange={this.handleChange} />
+                                </FormGroup>
+                            </Col>
+                            <Col xs="12" md="6" lg="4">
+                                <FormGroup>
+                                    <Label htmlFor="confirmPass" >Confirm Password</Label>
+                                    <Input type="text" name="confirmPass" id="confirmPass" value={this.state.confirmPass} onChange={this.handleChange} />
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Button type="submit" className="mr-3" color="primary" id="updateKbottom" value="updateK" onClick={
+                            this.submitAction = "updateK"}>Update Kupboard</Button>
+                        <Button type="submit" color="secondary" name="killKup" id="killKup" value="killKup" onClick={
+                            this.submitAction = "killKup"}>Delete Kupboard</Button>
                     </Col>
                 </Row>
             </Form>);
