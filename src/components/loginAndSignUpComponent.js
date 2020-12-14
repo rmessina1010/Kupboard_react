@@ -224,6 +224,21 @@ export class SignUpForm extends Component {
         alert("Creating Account for:\n" + JSON.stringify(this.state));
     }
 
+    autofill(event) {
+        fetch('http://api.zippopotam.us/us/' + event.target.value)
+            .then(response => response.json())
+            .then(location => {
+                if (location.places) {
+                    let locationFill = {
+                        city: location.places[0]['place name'],
+                        state: location.places[0]['state abbreviation']
+                    }
+                    this.setState({ locationFill });
+                }
+            });
+    }
+
+
     render() {
         return (<Form className="card-body pb-0" id="signUpForm" onSubmit={event => this.handleSubmit(event)} onChange={this.handleChange}>
             <Row>
@@ -253,16 +268,16 @@ export class SignUpForm extends Component {
             <Row>
                 <FormGroup className="col">
                     <Label htmlFor="zip">ZIP Code</Label>
-                    <Input type="number" name="zip" id="zip" />
+                    <Input type="number" name="zip" id="zip" value={this.state.zip} onBlur={event => this.autofill(event)} />
                 </FormGroup>
                 <FormGroup className="col-6">
                     <Label htmlFor="state">State</Label>
-                    <StateSelect name="state" id="state" required={true} />
+                    <StateSelect name="state" id="state" value={this.state.state} required={true} />
                 </FormGroup>
             </Row>
             <FormGroup>
                 <Label htmlFor="city">City</Label>
-                <Input type="text" name="city" id="city" placeholder="Madison" required />
+                <Input type="text" name="city" id="city" value={this.state.city} placeholder="Madison" required />
             </FormGroup>
             <Row>
                 <FormGroup className="col-12 col-md-6">

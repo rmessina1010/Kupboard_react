@@ -31,6 +31,7 @@ export class FindFormPlusList extends Component {
         this.setState(newLocation);
     }
 
+
     render() {
 
         let locations = Object.values(kbRoster).filter(location =>
@@ -51,6 +52,18 @@ export class FindFormPlusList extends Component {
 
 export class FindForm extends Component {
 
+
+    autofill(event) {
+        fetch('http://api.zippopotam.us/us/' + event.target.value)
+            .then(response => response.json())
+            .then(location => {
+                if (location) {
+                    this.props.cityRef.current.value = location.places[0]['place name'];
+                    this.props.stateRef.current.value = location.places[0]['state abbreviation'];
+                }
+            });
+    }
+
     render() {
         return (
             <Form id="locate" className="row pt-4 pb-2" onSubmit={event => this.props.onSub(event)}>
@@ -60,7 +73,7 @@ export class FindForm extends Component {
                 <Col className="pt-1" sm="3" xs="12" lg="2">
                     <FormGroup>
                         <Label for="zip">ZIP Code</Label>
-                        <Input type="number" name="zip" id="zip" innerRef={this.props.zipRef} />
+                        <Input type="number" name="zip" id="zip" innerRef={this.props.zipRef} onBlur={(event) => this.autofill(event)} />
                     </FormGroup>
                 </Col>
                 <Col className="pt-1" sm="6" md="4" xs="12" lg="3" >

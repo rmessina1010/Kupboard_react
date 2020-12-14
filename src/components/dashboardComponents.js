@@ -129,6 +129,21 @@ export class DashForm extends Component {
         });
     }
 
+    autofill(event) {
+        fetch('http://api.zippopotam.us/us/' + event.target.value)
+            .then(response => response.json())
+            .then(location => {
+                if (location) {
+                    let locationFill = {
+                        city: location.places[0]['place name'],
+                        state: location.places[0]['state abbreviation']
+                    }
+                    this.setState(locationFill);
+                }
+            });
+    }
+
+
     addItem = () => {
         let add = this.state.items.slice();
         add.unshift(
@@ -219,7 +234,7 @@ export class DashForm extends Component {
                         <Row>
                             <FormGroup className="col-4 col-sm-3">
                                 <Label for="zip">Zip</Label>
-                                <Input type="number" name="zip" id="zip" value={this.state.zip} required onChange={this.handleChange} />
+                                <Input type="number" name="zip" id="zip" value={this.state.zip} required onChange={this.handleChange} onBlur={event => this.autofill(event)} />
                             </FormGroup>
                             <FormGroup className="col-4 col-sm-6">
                                 <Label for="city">City</Label>
