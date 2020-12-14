@@ -22,119 +22,95 @@ export class DashForm extends Component {
     handleChange = (event, index) => {
         let el = event.target;
         let val = el.value;
-        let newStateProp = {};
-        let update = false;
+        let newStateProp = false;
         let elName = el.name ? el.name : el.className;
         elName = elName.split('[');
         elName = elName[0];
         switch (elName) {
             case "fa fa-close delcomm":
                 newStateProp = this.state.announcements.splice(index, 1);
-                update = true;
                 break;
             case "commentTitle":
                 newStateProp = this.state.announcements;
                 newStateProp[index].title = val;
-                update = true;
                 break;
             case "commentBody":
                 newStateProp = this.state.announcements;
                 newStateProp[index].text = val;
-                update = true;
                 break;
             case "inventoryItem":
                 newStateProp = this.state.items;
                 newStateProp[index].name = val;
-                update = true;
                 break;
             case "inventoryCt":
                 newStateProp = this.state.items;
                 newStateProp[index].qty = val;
-                update = true;
                 break;
             case "active":
                 newStateProp = this.state.items;
                 newStateProp[index].act = el.checked;
-                update = true;
                 break;
             case "delete":
                 newStateProp = this.state.items;
                 newStateProp[index].del = el.checked;
-                update = true;
                 break;
             case "request":
                 newStateProp = this.state.items;
                 newStateProp[index].req = el.checked;
-                update = true;
                 break;
             case "FirstName":
                 newStateProp = { userName: val };
-                update = true;
                 break;
             case "LastName":
                 newStateProp = { userLastName: val };
-                update = true;
                 break;
             case "city":
                 newStateProp = { city: val };
-                update = true;
                 break;
             case "state":
                 newStateProp = { state: val };
-                update = true;
                 break;
             case "zip":
                 newStateProp = { zip: val };
-                update = true;
                 break;
             case "oldPass":
                 newStateProp = { oldPass: val };
-                update = true;
                 break;
             case "newPass":
                 newStateProp = { newPass: val };
-                update = true;
                 break;
             case "confirmPass":
                 newStateProp = { confirmPass: val };
-                update = true;
                 break;
             case "email":
                 newStateProp = { userEmail: val };
-                update = true;
                 break;
             case "share":
                 newStateProp = { share: val };
-                update = true;
                 break;
             case "description":
                 newStateProp = { details: val };
-                update = true;
                 break;
             case "address":
                 newStateProp = { address: val };
-                update = true;
                 break;
             case "timeFrom":
                 newStateProp = this.state.hours;
                 newStateProp[index].open = val;
-                update = true;
                 break;
 
             case "timeTo":
                 newStateProp = this.state.hours;
                 newStateProp[index].close = val;
-                update = true;
                 break;
 
             case "daysFrom":
                 newStateProp = this.state.hours;
                 newStateProp[index].day = val;
-                update = true;
                 break;
         }
 
-        if (update) { this.setState(newStateProp); }
+        if (newStateProp) { this.setState(newStateProp); }
     }
 
     addAnnouncement = () => {
@@ -184,14 +160,13 @@ export class DashForm extends Component {
     render() {
         let { kupboard } = this.props;
         return (
-            <Form className="py-3" onSubmit={values => this.handleSubmit(values)}>
+            <Form className="py-3" onSubmit={event => this.handleSubmit(event)}>
 
                 <Row>
                     <Col sm="12" md="6">
                         <h5 className="dash-header">Inventory</h5>
                         <button type="button" className="btn btn-secondary mt-2 mr-3" id="addItem" onClick={this.addItem}>Add Item</button>
-                        <button type="submit" className="btn btn-primary mt-2" id="updateKtop" value="updateK" onClick={
-                            this.submitAction = "updateK"}>Update Kupboard</button>
+                        <button type="submit" className="btn btn-primary mt-2" id="updateKtop" value="updateK" onClick={() => this.submitAction = "updateK"}>Update Kupboard</button>
                         <div className="d-flex mt-3">
                             <div className="form-control font-weight-light bg-transparent border-0">Item</div>
                             <div className="form-control font-weight-light bg-transparent border-0 w-5rem ">Qty.</div>
@@ -302,9 +277,9 @@ export class DashForm extends Component {
                             </Col>
                         </Row>
                         <Button type="submit" className="mr-3" color="primary" id="updateKbottom" value="updateK" onClick={
-                            this.submitAction = "updateK"}>Update Kupboard</Button>
+                            () => this.submitAction = "updateK"}>Update Kupboard</Button>
                         <Button type="submit" color="secondary" name="killKup" id="killKup" value="killKup" onClick={
-                            this.submitAction = "killKup"}>Delete Kupboard</Button>
+                            () => this.submitAction = "killKup"}>Delete Kupboard</Button>
                     </Col>
                 </Row>
             </Form>);

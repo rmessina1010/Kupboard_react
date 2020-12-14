@@ -26,21 +26,21 @@ class Main extends Component {
         return (
             <div>
                 <header>
-                    <MainNav url="/" children={SiteData.pages} logged={logged} siteName={SiteData.info.siteName} />
+                    <MainNav url="/home/" children={SiteData.pages} logged={logged} siteName={SiteData.info.siteName} />
                     <Switch>
-                        <Route exact path={["/", "/view/"]} render={() => <BrandCarousel items={brandCarouselData} />} />
+                        <Route exact path={["/", "/home/", "/view/"]} render={() => <BrandCarousel items={brandCarouselData} />} />
                         <Route path="/about/" render={() => <BrandJumbo {...aboutBrandData} fadeType="bg-shadefade" />} />
                         <Route path={["/view/:kup", "/dash/:kup"]} render={(rprops) => <UserJumbo fadeType="bg-shadefade" {...rprops} />} />
                     </Switch>
                 </header>
                 <Switch>
-                    <Route exact path={["/", "/about/", "/view/"]} component={HomeContent} />
+                    <Route exact path={["/", "/home/", "/about/", "/view/"]} component={HomeContent} />
                     <Route path="/login/" component={LoginPage} />
                     <Route exact path={["/signup/", "/dash/"]} component={SignUpPage} />
                     <Route path="/find/" component={findKupboard} />
                     <Route path="/view/:kup" component={ViewKBPage} />
                     <Route path="/dash/:kup" component={DashboardPage} />
-                    <Redirect to="/" />
+                    <Redirect to="/home/" />
                 </Switch>
                 <Footer pages={SiteData.pages} social={SiteData.social} info={SiteData.info} />
             </div>

@@ -50,7 +50,7 @@ const siteData = {
         id: 1,
         text: "Home",
         icon: "fa fa-house",
-        url: "/",
+        url: "/home",
         include: [],
         exclude: []
     },
