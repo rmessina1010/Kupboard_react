@@ -57,7 +57,7 @@ export class FindForm extends Component {
         fetch('http://api.zippopotam.us/us/' + event.target.value)
             .then(response => response.json())
             .then(location => {
-                if (location) {
+                if (location.places) {
                     this.props.cityRef.current.value = location.places[0]['place name'];
                     this.props.stateRef.current.value = location.places[0]['state abbreviation'];
                 }
@@ -68,7 +68,7 @@ export class FindForm extends Component {
         return (
             <Form id="locate" className="row pt-4 pb-2" onSubmit={event => this.props.onSub(event)}>
                 <Col className="h3 pb-1" xs="12" lg="3">
-                    <h2 className="text-center font-weight-light">Find a Cupboard Near&nbsp;You.</h2>
+                    <h2 className="text-center font-weight-light">Find a Kupboard Near&nbsp;You.</h2>
                 </Col>
                 <Col className="pt-1" sm="3" xs="12" lg="2">
                     <FormGroup>

@@ -14,32 +14,64 @@ import { LoginPage, SignUpPage } from './loginAndSignUpComponent';
 import ViewKBPage from './viewKBPageComponent';
 import DashboardPage from './dashboardPageComponent';
 
+const LOGGED_OUT = {
+    url: '/login/',
+    icon: 'fa fa-sign-in',
+    isLogged: false,
+    kup: null
+}
+const LOGGED_IN = {
+    url: '/dash/',
+    icon: 'fa fa-tachometer',
+    isLogged: true
+}
+
+let LOGGED_STATE = (document.cookie.match(/^(?:.*;)?\s*kuplogged\s*=\s*([^;]+)(?:.*)?$/) || [null, null])[1];
+LOGGED_STATE = !LOGGED_STATE ? LOGGED_OUT : { ...LOGGED_IN, kup: LOGGED_STATE, url: '/dash/' + LOGGED_STATE };
+
 class Main extends Component {
-    render() {
-
-        let logged = {
-            url: '/login',
-            icon: 'fa fa-sign-in',
-            isLogged: false
+    constructor(props) {
+        super(props);
+        this.state = {
+            logged: { ...LOGGED_STATE },
         }
+        this.loginFoo = this.loginFoo.bind(this);
+        this.logoutFoo = this.logoutFoo.bind(this);
+    }
 
+    loginFoo(userData) {
+        let id = userData.id.split('kup_')[1];
+        this.setState({
+            logged: { ...LOGGED_IN, kup: id, url: '/dash/' + id }
+        });
+        document.cookie = "kuplogged=" + id + ";path=/";
+        window.location = '/dash/' + id;
+    }
+
+    logoutFoo() {
+        document.cookie = "kuplogged=;path=/";
+        this.setState(LOGGED_OUT);
+        window.location = "/login/";
+    }
+
+    render() {
         return (
             <div>
                 <header>
-                    <MainNav url="/home/" children={SiteData.pages} logged={logged} siteName={SiteData.info.siteName} />
+                    <MainNav url="/home/" children={SiteData.pages} logout={this.logoutFoo} logged={this.state.logged} siteName={SiteData.info.siteName} />
                     <Switch>
                         <Route exact path={["/", "/home/", "/view/"]} render={() => <BrandCarousel items={brandCarouselData} />} />
                         <Route path="/about/" render={() => <BrandJumbo {...aboutBrandData} fadeType="bg-shadefade" />} />
-                        <Route path={["/view/:kup", "/dash/:kup"]} render={(rprops) => <UserJumbo fadeType="bg-shadefade" {...rprops} />} />
+                        <Route path={["/view/:kup", "/dash/:kup"]} render={(rprops) => <UserJumbo fadeType="bg-shadefade" auth={this.state.logged.kup} {...rprops} />} />
                     </Switch>
                 </header>
                 <Switch>
                     <Route exact path={["/", "/home/", "/about/", "/view/"]} component={HomeContent} />
-                    <Route path="/login/" component={LoginPage} />
-                    <Route exact path={["/signup/", "/dash/"]} component={SignUpPage} />
+                    <Route exact path={["/login/", "/dash/"]} render={() => <LoginPage loginFoo={this.loginFoo} />} />
+                    <Route exact path="/signup/" component={SignUpPage} />
                     <Route path="/find/" component={findKupboard} />
                     <Route path="/view/:kup" component={ViewKBPage} />
-                    <Route path="/dash/:kup" component={DashboardPage} />
+                    <Route path="/dash/:kup" render={(rprops) => <DashboardPage auth={this.state.logged.kup} {...rprops} />} />
                     <Redirect to="/home/" />
                 </Switch>
                 <Footer pages={SiteData.pages} social={SiteData.social} info={SiteData.info} />

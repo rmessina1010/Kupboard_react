@@ -27,12 +27,17 @@ export function BrandJumbo(props) {
 }
 
 export function UserJumbo(props) {
-    let kup = props.match ? kbRoster['kup_' + props.match.params.kup] : false;
+    let kup = kbRoster['kup_' + props.match.params.kup];
+    let errMess = "That Kupboard doesn't exist";
+    if (props.match.path === "/dash/:kup" && props.auth !== props.match.params.kup) {
+        kup = false;
+        errMess = "Improper Kupboard access."
+    }
     kup = kup ? kup : {
-        mast: "default.jpg",
-        mastAlt: "missing kupoard",
+        mast: "/assets/1140x440.png",
+        mastAlt: "missing Kupboard",
         name: "Oops!",
-        details: "That Kupboard doesn't exist",
+        details: errMess,
         share: null,
         missing: true
     };

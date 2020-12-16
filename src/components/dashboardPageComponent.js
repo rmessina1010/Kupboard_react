@@ -15,7 +15,7 @@ class DashboardPage extends Component {
         let next_ann = 1;
         let next_item = 1;
         let kupData = false;
-        if (kbRoster['kup_' + kup]) {
+        if (kup === this.props.auth && kbRoster['kup_' + kup]) {
             if (kbAnnounce['commentsIn_' + kup]) { announce = kbAnnounce['commentsIn_' + kup].announce; }
             if (kbItems['itemsIn_' + kup]) { inventory = kbItems['itemsIn_' + kup].inventory; }
             kupData = kbRoster['kup_' + kup];

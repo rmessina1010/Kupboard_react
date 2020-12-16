@@ -5,11 +5,11 @@ import { StateSelect } from './selectOptsComponent';
 import { Prefoot } from './prefootComponent';
 import userRoster from '../shared/userRoster';
 
-export function LoginPage() {
+export function LoginPage(props) {
     return (
         <React.Fragment>
             <MainWrap>
-                <LoginContainer useLogin={true} />
+                <LoginContainer useLogin={props.loginFoo} />
             </MainWrap>
             <Prefoot classes="graybar-shift p-0" />
         </React.Fragment>
@@ -45,6 +45,7 @@ export class LoginContainer extends Component {
         }
 
         this.setStatusMessage = this.setStatusMessage.bind(this);
+
     }
 
     setStatusMessage(message) {
@@ -53,15 +54,15 @@ export class LoginContainer extends Component {
 
 
     render() {
-        let header = !this.props.useLogin ?
+        let header = (!this.props.useLogin) ?
             <div className="no-gutters">
-                <CardImg className="center-logo-50" src="assets/Kupboard_logo_gray.svg" alt="Kupboard_logo" />
+                <CardImg className="center-logo-50" src="/assets/Kupboard_logo_gray.svg" alt="Kupboard_logo" />
                 <h2 className="h4 text-center font-weight-lighter">Kreate a new kupboard.</h2>
             </div>
             : <React.Fragment>
-                <CardImg className="center-logo-50" src="assets/Kupboard_logo_gray.svg" alt="Kupboard_logo" />
+                <CardImg className="center-logo-50" src="/assets/Kupboard_logo_gray.svg" alt="Kupboard_logo" />
                 <h2 className="h4 text-center bottom-rule font-weight-lighter">Log In{this.state.statusMessage}</h2>
-            </React.Fragment >;
+            </React.Fragment>;
 
         return (
             <div className="container-fluid container-xl mt-5">
@@ -70,7 +71,7 @@ export class LoginContainer extends Component {
                         <Card className="form-container">
                             {header}
                             {this.props.children}
-                            {this.props.useLogin ? <LoginForm setMessage={this.setStatusMessage} /> : <SignUpForm />}
+                            {this.props.useLogin ? <LoginForm setMessage={this.setStatusMessage} loginFoo={this.props.useLogin} /> : <SignUpForm />}
                         </Card>
                     </Col>
                 </Row>
@@ -95,6 +96,9 @@ export class LoginForm extends Component {
         event.preventDefault();
         let success = (userRoster[this.state.kupboadName] && userRoster[this.state.kupboadName].password === this.state.password && userRoster[this.state.kupboadName].email === this.state.email) ? true : false;
         this.props.setMessage(success ? <small className="d-block text-success font-weight-normal">Welcome. You are now logged in.</small> : <small className="font-weight-normal d-block text-danger">Login failed!!</small>);
+        if (success && typeof this.props.loginFoo === 'function') {
+            this.props.loginFoo(userRoster[this.state.kupboadName]);
+        }
     }
 
 
@@ -233,7 +237,7 @@ export class SignUpForm extends Component {
                         city: location.places[0]['place name'],
                         state: location.places[0]['state abbreviation']
                     }
-                    this.setState({ locationFill });
+                    this.setState(locationFill);
                 }
             });
     }

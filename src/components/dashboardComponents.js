@@ -133,7 +133,7 @@ export class DashForm extends Component {
         fetch('http://api.zippopotam.us/us/' + event.target.value)
             .then(response => response.json())
             .then(location => {
-                if (location) {
+                if (location.places) {
                     let locationFill = {
                         city: location.places[0]['place name'],
                         state: location.places[0]['state abbreviation']

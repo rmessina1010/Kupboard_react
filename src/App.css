@@ -100,10 +100,10 @@ body {
 	text-shadow: 0 1px 0 rgba(255, 255, 255, .4);
 	font-weight: 400;
 }
-.navbar-wrap .navbar a.nav-link, .navbar a .fa-sign-in{
+.navbar-wrap .navbar a.nav-link, .navbar a .fa-sign-in, .navbar a .fa-tachometer{
 	color: rgba(255,255,255,.5);
 }
-.navbar-wrap .navbar a.nav-link:hover, .navbar a:hover .fa-sign-in, .navbar a.active .fa-sign-in{
+.navbar-wrap .navbar a.nav-link:hover, .navbar a:hover .fa-sign-in, .navbar a.active .fa-sign-in, .navbar a:hover .fa-tachometer, .navbar a.active .tachometer{
 	color: rgba(255,255,255,1);
 }
 
