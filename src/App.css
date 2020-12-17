@@ -267,7 +267,7 @@ a.carousel-control-next, a.carousel-control-prev{
 	margin-bottom: 1.5em;
 }
 
-.comment-text .fa-close{
+.comment-text .fa-close, .kup-hour .delday{
 	position:absolute;
 	text-align: center;
 	top:.37em;
@@ -431,6 +431,14 @@ box-shadow:none ;
 	border-radius: 0;
 }
 
+.kup-hour{
+	position: relative;
+}
+.kup-hour .delday{
+	 top: .25rem;
+	 right: -.5em;
+
+}
 
 @media screen and ( max-width:575px){
 .navbar-wrap ul.navbar-nav  {

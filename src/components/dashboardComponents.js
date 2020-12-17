@@ -50,9 +50,11 @@ export class DashForm extends Component {
                 newStateProp = this.state.items;
                 newStateProp[index].act = el.checked;
                 break;
-            case "delete":
-                newStateProp = this.state.items;
-                newStateProp[index].del = el.checked;
+            case "fa fa-close delete":
+                newStateProp = this.state.items.splice(index, 1);
+                break;
+            case "fa fa-close delday":
+                newStateProp = this.state.hours.splice(index, 1);
                 break;
             case "request":
                 newStateProp = this.state.items;
@@ -162,6 +164,12 @@ export class DashForm extends Component {
         });
     }
 
+    addDay = () => {
+        let add = this.state.hours.slice();
+        add.push({ day: null, toDay: null, open: null, close: null });
+        this.setState({ hours: add });
+    }
+
     handleSubmit(event) {
         event.preventDefault();
         let message = "Your Kupboard account has been " + (
@@ -225,7 +233,12 @@ export class DashForm extends Component {
                             </Col>
                         </Row>
                         <h5 className="dash-header">Hours</h5>
-                        {this.state.hours ? kupboard.hours.map((hour, index) => <DaySchedule {...hour} index={index} change={this.handleChange} />) : null}
+                        {this.state.hours ? this.state.hours.map((hour, index) => <DaySchedule {...hour} index={index} change={this.handleChange} />) : null}
+                        <Row>
+                            <Col>
+                                <button type="button" className="btn btn-secondary mt-2 mr-3" id="addDay" onClick={this.addDay}>Add Day</button>
+                            </Col>
+                        </Row>
                         <h5 className="dash-header">Location</h5>
                         <FormGroup>
                             <Label for="address">Street Address</Label>
@@ -244,6 +257,11 @@ export class DashForm extends Component {
                                 <Label for="state">State</Label>
                                 <StateSelect name="state" id="state" required={true} value={this.state.state} change={this.handleChange} />
                             </FormGroup>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <button type="button" className="btn btn-secondary mt-2 mr-3" id="addDay" onClick={this.addDay}>Add Day</button>
+                            </Col>
                         </Row>
                         <h5 className="dash-header">Details</h5>
                         <Row className="pb-2">
@@ -322,7 +340,7 @@ export function CommentItem({ text, title, change, index, com_ID }) {
 export function DaySchedule(props) {
     return (
         <Row className="kup-hour" key={props.index}>
-            <Col xs="12" sm="6" md="12" lg="6" className="mb-1 pr-lg-3 pr-md-0 pr-sm-3">
+            <Col xs="12" sm="6" md="12" lg="6" className="mb-1 pr-lg-3 pr-md-0 pr-sm-3 pt-1">
                 <InputGroup>
                     <div className="input-group-prepend">
                         <Label className="input-group-text" for="daysFrom">From</Label>
@@ -337,19 +355,20 @@ export function DaySchedule(props) {
             <Col xs="12" sm="6" md="12" lg="6" className="mb-1">
                 <InputGroup>
                     <div className="input-group-prepend">
-                        <Label className="input-group-text input-group-prepend" for="timeFrom">From</Label>
+                        <Label className="input-group-text input-group-prepend" for="timeFrom">Open</Label>
                     </div>
                     <Input type="text" name="timeFrom[]" id="timeFrom" placeholder="10:00am" value={props.open} onChange={event => props.change(event, props.index)} />
-                    <div className="input-group-append input-group-prepend "> <Label className="input-group-text" for="timeTo"> to </Label> </div>
-                    <Input type="text" name="timeTo[]" id="timeTo" placeholder="10:00am" value={props.close} onChange={event => props.change(event, props.index)} />
+                    <div className="input-group-append input-group-prepend "> <Label className="input-group-text" for="timeTo">Close</Label> </div>
+                    <Input type="text" name="timeTo[]" id="timeTo" placeholder="6:00pm" value={props.close} onChange={event => props.change(event, props.index)} />
                 </InputGroup>
             </Col>
+            <i className="fa fa-close delday" onClick={(event, index) => props.change(event, index)}></i>
         </Row>
     );
 }
 
 
-export function InventoryItemDash({ req, act, del, qty, name, id, change, index }) {
+export function InventoryItemDash({ req, act, qty, name, id, change, index }) {
     return (
 
         <InputGroup tag="li" className="mb-2 no-gutters" key={id}>
@@ -362,8 +381,8 @@ export function InventoryItemDash({ req, act, del, qty, name, id, change, index 
                 <InputGroupText tag="label">
                     <input name={"active[" + id + "]"} id={"active" + id} type="checkbox" checked={act ? true : false} onClick={event => change(event, index)} />
                 </InputGroupText>
-                <InputGroupText tag="label">
-                    <input name={"delete[" + id + "]"} id={"delete" + id} type="checkbox" checked={del ? true : false} onClick={event => change(event, index)} />
+                <InputGroupText tag="label" className="text-secondary">
+                    <i className="fa fa-close delete" onClick={event => change(event, index)}></i>
                 </InputGroupText>
             </InputGroupAddon>
         </InputGroup>
