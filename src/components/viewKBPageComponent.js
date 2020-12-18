@@ -22,7 +22,7 @@ class ViewKBPage extends Component {
                 <MainWrap>
                     <KupboardView inventory={inventory} announce={announce} {...kupData} />
                 </MainWrap>
-                <Prefoot map={kupData.map} heading={kupData.map ? null : "Map not available."} xl="6" />
+                <Prefoot map={kupData} heading={kupData.map ? null : "Map not available."} xl="6" />
             </React.Fragment >)
             : (<React.Fragment>
                 <MainWrap>

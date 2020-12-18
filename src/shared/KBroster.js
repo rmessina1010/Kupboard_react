@@ -24,7 +24,7 @@ export let kbRoster =
         userLastName: "Smith",
         userEmail: "rs@email.com",
         userPassword: 'fakepass',
-        map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2952.225782843878!2d-89.08652298454645!3d42.27370347919271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8808be329a526b9b%3A0x161b80f6a0c78725!2s628%20N%201st%20St%2C%20Rockford%2C%20IL%2061107!5e0!3m2!1sen!2sus!4v1603439328990!5m2!1sen!2sus",
+        map: true,
         id: 1
     },
 
@@ -34,10 +34,10 @@ export let kbRoster =
         mast: "/assets/user_mast_1140x440.jpg",
         mastAlt: "curbmast",
         name: "Test Kupboard #2",
-        address: "628 Beford Ave",
-        city: "Madison",
-        state: "WI",
-        zip: "53711",
+        address: "40 Bedford Street",
+        city: "Rochester",
+        state: "NY",
+        zip: "14609",
         itemTypeCt: 143,
         hours: [
             { day: "Mon.", toDay: "Web.", open: "10 am", close: "4pm" },
@@ -52,7 +52,7 @@ export let kbRoster =
         userLastName: "Smith",
         userEmail: "rs@email.com",
         userPassword: "fakepass2",
-        map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2952.225782843878!2d-89.08652298454645!3d42.27370347919271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8808be329a526b9b%3A0x161b80f6a0c78725!2s628%20N%201st%20St%2C%20Rockford%2C%20IL%2061107!5e0!3m2!1sen!2sus!4v1603439328990!5m2!1sen!2sus",
+        map: true,
         id: 2
     },
 
@@ -80,7 +80,7 @@ export let kbRoster =
         userLastName: "Smith",
         userEmail: "rs@email.com",
         userPassword: 'fakepass3',
-        map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2952.225782843878!2d-89.08652298454645!3d42.27370347919271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8808be329a526b9b%3A0x161b80f6a0c78725!2s628%20N%201st%20St%2C%20Rockford%2C%20IL%2061107!5e0!3m2!1sen!2sus!4v1603439328990!5m2!1sen!2sus",
+        map: true,
         id: 3
     },
 
@@ -135,7 +135,7 @@ export let kbRoster =
         userLastName: "Smith",
         userEmail: "rs@email.com",
         userPassword: 'fakepass5',
-        map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2952.225782843878!2d-89.08652298454645!3d42.27370347919271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8808be329a526b9b%3A0x161b80f6a0c78725!2s628%20N%201st%20St%2C%20Rockford%2C%20IL%2061107!5e0!3m2!1sen!2sus!4v1603439328990!5m2!1sen!2sus",
+        map: true,
         id: 4
     }
 

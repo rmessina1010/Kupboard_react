@@ -8,6 +8,9 @@ import { kbItems, kbAnnounce, kbRoster } from '../shared/KBroster';
 
 class DashboardPage extends Component {
 
+    constructor(props) {
+        super(props);
+    }
     render() {
         let { kup } = this.props.match ? this.props.match.params : {};
         let announce = [];
@@ -25,7 +28,7 @@ class DashboardPage extends Component {
                 <MainWrap>
                     <DashForm items={inventory} kupboard={kupData} comments={announce} kup_id={kup} next_item={next_item} next_ann={next_ann} />
                 </MainWrap>
-                <Prefoot map={kupData.map} heading={kup && kupData.map ? null : "Map not available."} xl="6" />
+                <Prefoot map={kupData} heading={kup && kupData.map ? null : "Map not available."} xl="6" />
             </React.Fragment >)
             : (<React.Fragment>
                 <MainWrap>

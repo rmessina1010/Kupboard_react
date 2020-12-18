@@ -258,11 +258,6 @@ export class DashForm extends Component {
                                 <StateSelect name="state" id="state" required={true} value={this.state.state} change={this.handleChange} />
                             </FormGroup>
                         </Row>
-                        <Row>
-                            <Col>
-                                <button type="button" className="btn btn-secondary mt-2 mr-3" id="addDay" onClick={this.addDay}>Add Day</button>
-                            </Col>
-                        </Row>
                         <h5 className="dash-header">Details</h5>
                         <Row className="pb-2">
                             <FormGroup className="col-sm-6">
