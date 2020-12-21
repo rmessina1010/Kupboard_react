@@ -10,8 +10,6 @@ class DashboardPage extends Component {
 
     constructor(props) {
         super(props);
-    }
-    render() {
         let { kup } = this.props.match ? this.props.match.params : {};
         let announce = [];
         let inventory = [];
@@ -19,16 +17,35 @@ class DashboardPage extends Component {
         let next_item = 1;
         let kupData = false;
         if (kup === this.props.auth && kbRoster['kup_' + kup]) {
-            if (kbAnnounce['commentsIn_' + kup]) { announce = kbAnnounce['commentsIn_' + kup].announce; }
-            if (kbItems['itemsIn_' + kup]) { inventory = kbItems['itemsIn_' + kup].inventory; }
+            if (kbAnnounce['commentsIn_' + kup]) {
+                announce = kbAnnounce['commentsIn_' + kup].announce;
+                next_ann = kbAnnounce['commentsIn_' + kup].nextid;
+            }
+            if (kbItems['itemsIn_' + kup]) {
+                inventory = kbItems['itemsIn_' + kup].inventory;
+            }
             kupData = kbRoster['kup_' + kup];
+            next_item = kbItems['itemsIn_' + kup].nextid;
         }
-        return kupData ?
+        this.state = {
+            kup: kup,
+            next_ann: next_ann,
+            next_item: next_item,
+            announce: announce,
+            inventory: inventory,
+            kupData: kupData
+        }
+    }
+
+    updateFooter = (newState) => this.setState(newState);
+
+    render() {
+        return this.state.kupData ?
             (<React.Fragment>
                 <MainWrap>
-                    <DashForm items={inventory} kupboard={kupData} comments={announce} kup_id={kup} next_item={next_item} next_ann={next_ann} />
+                    <DashForm items={this.state.inventory} kupboard={this.state.kupData} comments={this.state.announce} kup_id={this.state.kup} next_item={this.state.next_item} next_ann={this.state.next_ann} onUpdate={this.updateFooter} />
                 </MainWrap>
-                <Prefoot map={kupData} heading={kup && kupData.map ? null : "Map not available."} xl="6" />
+                <Prefoot map={this.state.kupData} heading={this.state.kup && this.state.kupData.map ? null : "Map not available."} xl="6" />
             </React.Fragment >)
             : (<React.Fragment>
                 <MainWrap>

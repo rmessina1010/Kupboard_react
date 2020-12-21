@@ -232,7 +232,7 @@ export let kbItems = {
 
 export let kbAnnounce = {
     commentsIn_2: {
-        nextID: 4,
+        nextid: 4,
         announce:
             [
                 {

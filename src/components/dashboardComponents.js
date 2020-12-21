@@ -172,16 +172,45 @@ export class DashForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        let isDeletion = this.submitAction === 'killKup' ? true : false;
         let message = "Your Kupboard account has been " + (
-            this.submitAction === 'killKup' ? "deleted." :
+            isDeletion ? "deleted." :
                 "updated.\n" + JSON.stringify(this.state)
         );
         this.submitAction = false;
         alert(message);
+        if (!isDeletion) {
+            this.props.onUpdate({
+                next_ann: this.state.next_ann,
+                next_item: this.state.next_item,
+                announce: this.state.announcements,
+                inventory: this.state.items,
+                kupData: {
+                    img: this.state.img,
+                    alt: this.state.alt,
+                    mast: this.state.mast,
+                    mastAlt: this.state.Alt,
+                    name: this.state.name,
+                    address: this.state.address,
+                    city: this.state.city,
+                    state: this.state.state,
+                    zip: this.state.zip,
+                    itemTypeCt: this.state.itemTypeCt,
+                    hours: this.state.hours,
+                    details: this.state.details,
+                    share: this.state.share,
+                    userName: this.state.userName,
+                    userLastName: this.state.userLastName,
+                    userEmail: this.state.userEmail,
+                    userPassword: this.state.userPassword,
+                    map: this.state.map,
+                    id: this.state.id
+                }
+            });
+        }
     }
 
     render() {
-        let { kupboard } = this.props;
         return (
             <Form className="py-3" onSubmit={event => this.handleSubmit(event)}>
 
