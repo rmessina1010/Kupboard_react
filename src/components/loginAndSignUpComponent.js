@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Card, CardImg, Form, FormGroup, Label, Input, } from 'reactstrap';
+import { Row, Col, Button, Card, CardImg, Form, FormGroup, Label, Input, FormFeedback } from 'reactstrap';
 import MainWrap from './mainWrapComponent';
 import { StateSelect } from './selectOptsComponent';
 import { Prefoot } from './prefootComponent';
 import userRoster from '../shared/userRoster';
+import validator from '../shared/validation'
 
 export function LoginPage(props) {
     return (
@@ -178,7 +179,24 @@ export class SignUpForm extends Component {
             passwordConfirm: '',
             agree: false
         }
+
+        this.fieldTests = {
+            firstName: [{ test: "required", err: "Please fill in your name." }, { test: "isValidName", err: "Please fill  a valid name." }],
+            lastName: [{ test: "required", err: "Please fill in your last name." }, { test: "isValidName", err: "Please fill  a valid last name." }],
+            kupboadName: [{ test: "required", err: "Please choose a name for your Kupboard." }],
+            email: [{ test: "required", err: "Email is required." }, { test: "isValidEmail", err: "Please provide a valid email." }],
+            address: [{ test: "required", err: "A street address is required." }, { test: "isValidAddress", err: "Please provide a valid street address." }],
+            zip: [{ test: "required", err: "A ZIP code is required." }, { test: "isValidZip", err: "Please provide a valid Zip Code." }],
+            state: [{ test: "required", err: "Select your state." }],
+            city: [{ test: "required", err: "Please provide a city name." }],
+            password: [{ test: "required", err: "Please coose a password." }],
+            passwordConfirm: [{ test: "required", err: "Please confirm your password." }, { test: "match", arg: "password", err: "Passwords do not match." }],
+            agree: [{ test: "requiredTrue", err: "Please agree to TOS." }]
+        }
+        this.validator = new validator(this.fieldTests);
+
     }
+
 
     handleChange = (event) => {
         let el = event.target;
@@ -192,7 +210,7 @@ export class SignUpForm extends Component {
                 newStateProp = { lastName: el.value };
                 break;
             case "kupboadName":
-                newStateProp = { password: el.value };
+                newStateProp = { kupboadName: el.value };
                 break;
             case "email":
                 newStateProp = { email: el.value };
@@ -219,12 +237,25 @@ export class SignUpForm extends Component {
                 newStateProp = { agree: el.checked };
                 break;
         }
-        if (newStateProp) { this.setState(newStateProp); }
+        if (newStateProp) {
+            if (this.fieldTests[elName]) {
+                let dataProp = { ...newStateProp };
+                if (elName === "passwordConfirm") { dataProp["password"] = this.state.password; }
+                this.validator.validate(dataProp, { [elName]: this.fieldTests[elName] });
+            }
+            this.setState(newStateProp);
+        }
     }
 
 
     handleSubmit(event) {
         event.preventDefault();
+        let isInvalid;
+        if (isInvalid = this.validator.isInvalid(this.state)) {
+            this.forceUpdate();
+            alert("Invalid Form fields!!" + isInvalid);
+            return;
+        }
         alert("Creating Account for:\n" + JSON.stringify(this.state));
     }
 
@@ -244,59 +275,72 @@ export class SignUpForm extends Component {
 
 
     render() {
-        return (<Form className="card-body pb-0" id="signUpForm" onSubmit={event => this.handleSubmit(event)} onChange={this.handleChange}>
+        const errors = this.validator.errors;
+
+        return (<Form className="card-body pb-0" id="signUpForm" onSubmit={event => this.handleSubmit(event)} onChange={this.handleChange} onBlur={this.handleChange}>
             <Row>
                 <FormGroup className="col-12 col-md-6">
                     <Label htmlFor="firstName">First Name</Label>
-                    <Input type="text" id="firstName" name="firstName" placeholder="Roger" required />
+                    <Input type="text" id="firstName" name="firstName" placeholder="Roger" invalid={errors.firstName} />
+                    <FormFeedback>{errors.firstName}</FormFeedback>
                 </FormGroup>
                 <FormGroup className="col-12 col-md-6">
                     <Label htmlFor="lastName">Last Name</Label>
-                    <Input type="text" id="lastName" name="lastName" placeholder="Smith" required />
+                    <Input type="text" id="lastName" name="lastName" placeholder="Smith" invalid={errors.lastName} />
+                    <FormFeedback>{errors.lastName}</FormFeedback>
                 </FormGroup>
             </Row>
             <FormGroup>
                 <Label htmlFor="kupboadName">Kupboard Name</Label>
-                <Input type="text" name="kupboadName" id="kupboadName" placeholder="YourKupboard" required />
+                <Input type="text" name="kupboadName" id="kupboadName" placeholder="YourKupboard" invalid={errors.kupboadName} />
+                <FormFeedback>{errors.kupboadName}</FormFeedback>
             </FormGroup>
             <FormGroup>
                 <Label htmlFor="email">Email</Label>
-                <Input type="email" name="email" id="email" placeholder="anemail@geemail.com" required />
+                <Input type="email" name="email" id="email" placeholder="anemail@geemail.com" invalid={errors.email} />
+                <FormFeedback >{errors.email}</FormFeedback>
             </FormGroup>
             <FormGroup>
                 <Label htmlFor="address">Street Address</Label>
-                <Input type="text" name="address" id="address" placeholder="628 N First" required />
+                <Input type="text" name="address" id="address" placeholder="628 N First" invalid={errors.address} />
+                <FormFeedback>{errors.address}</FormFeedback>
             </FormGroup>
 
 
             <Row>
                 <FormGroup className="col">
                     <Label htmlFor="zip">ZIP Code</Label>
-                    <Input type="number" name="zip" id="zip" value={this.state.zip} onBlur={event => this.autofill(event)} />
+                    <Input type="text" name="zip" id="zip" value={this.state.zip} onBlur={event => this.autofill(event)} invalid={errors.zip} />
+                    <FormFeedback>{errors.zip}</FormFeedback>
                 </FormGroup>
                 <FormGroup className="col-6">
                     <Label htmlFor="state">State</Label>
-                    <StateSelect name="state" id="state" value={this.state.state} required={true} />
+                    <StateSelect name="state" id="state" value={this.state.state} invalid={errors.state} />
+                    <FormFeedback>{errors.state}</FormFeedback>
                 </FormGroup>
             </Row>
             <FormGroup>
                 <Label htmlFor="city">City</Label>
-                <Input type="text" name="city" id="city" value={this.state.city} placeholder="Madison" required />
+                <Input type="text" name="city" id="city" value={this.state.city} placeholder="Madison" invalid={errors.city} />
+                <FormFeedback>{errors.city}</FormFeedback>
             </FormGroup>
             <Row>
                 <FormGroup className="col-12 col-md-6">
                     <Label htmlFor="password">Choose Password</Label>
-                    <Input type="password" id="password" name="password" required />
+                    <Input type="password" id="password" name="password" invalid={errors.password} />
+                    <FormFeedback>{errors.password}</FormFeedback>
                 </FormGroup>
                 <FormGroup className="col-12 col-md-6">
                     <Label htmlFor="passwordConfirm">Confirm Password</Label>
-                    <Input type="password" id="passwordConfirm" name="passwordConfirm" required />
+                    <Input type="password" id="passwordConfirm" name="passwordConfirm" invalid={errors.passwordConfirm} />
+                    <FormFeedback>{errors.passwordConfirm}</FormFeedback>
                 </FormGroup>
             </Row>
             <FormGroup className="row">
                 <Col xs="12" sm="6" className="d-flex align-items-center mb-3 mb-sm-0">
                     <div className="form-check">
-                        <Label check ><Input type="checkbox" id="agree" name="agree" required /> Agree to Terms of service</Label>
+                        <Label check ><Input type="checkbox" id="agree" name="agree" invalid={errors.agree} /> Agree to Terms of service<FormFeedback>{errors.agree}</FormFeedback></Label>
+
                     </div>
                 </Col>
                 <Col xs="12" sm="6">

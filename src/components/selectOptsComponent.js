@@ -2,10 +2,10 @@ import React from 'react';
 import { Input } from 'reactstrap';
 import { statesList } from '../shared/statelist'
 
-export function StateSelect({ name, id, classes, required, value, passRef, change }) {
+export function StateSelect({ name, id, classes, required, value, passRef, change, invalid }) {
     let selClass = "custom-select" + (classes ? classes : '');
     return (
-        <Input type="select" name={name} id={id} className={selClass} required={required} value={value} innerRef={passRef} onChange={change}>
+        <Input type="select" name={name} id={id} className={selClass} required={required} value={value} innerRef={passRef} onChange={change} invalid={invalid}>
             <option value="">Select:</option>
             {statesList ? (statesList.map(st => <option value={st.abr}>{st.abr}</option>)) : null}
         </Input>
