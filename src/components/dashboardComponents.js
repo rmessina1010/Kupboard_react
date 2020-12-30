@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Col, Row, FormGroup, Label, Input, Button, Form, InputGroupAddon, InputGroupText } from 'reactstrap';
+import { Col, Row, FormGroup, Label, Input, Button, Form, InputGroupAddon, InputGroupText, FormFeedback } from 'reactstrap';
 import InputGroup from 'reactstrap/lib/InputGroup';
 import { DaySelect, StateSelect } from './selectOptsComponent'
+import validator from '../shared/validation'
 
 
 export class DashForm extends Component {
@@ -17,6 +18,18 @@ export class DashForm extends Component {
             ...this.props.kupboard
         }
         this.submitAction = null;
+        this.fieldTests = {
+            userName: [{ test: "required", err: "Please fill in your name." }, { test: "isValidName", err: "Please fill  a valid name." }],
+            userLastName: [{ test: "required", err: "Please fill in your last name." }, { test: "isValidName", err: "Please fill  a valid last name." }],
+            userEmail: [{ test: "required", err: "Email is required." }, { test: "isValidEmail", err: "Please provide a valid email." }],
+            address: [{ test: "required", err: "A street address is required." }, { test: "isValidAddress", err: "Please provide a valid street address." }],
+            zip: [{ test: "required", err: "A ZIP code is required." }, { test: "isValidZip", err: "Please provide a valid Zip Code." }],
+            state: [{ test: "required", err: "Select your state." }],
+            city: [{ test: "required", err: "Please provide a city name." }],
+            confirmPass: [{ test: "match", arg: "newPass", err: "Passwords do not match." }],
+        }
+        this.validator = new validator(this.fieldTests);
+
     }
 
     handleChange = (event, index) => {
@@ -60,10 +73,10 @@ export class DashForm extends Component {
                 newStateProp = this.state.items;
                 newStateProp[index].req = el.checked;
                 break;
-            case "FirstName":
+            case "userName":
                 newStateProp = { userName: val };
                 break;
-            case "LastName":
+            case "userLastName":
                 newStateProp = { userLastName: val };
                 break;
             case "city":
@@ -84,7 +97,7 @@ export class DashForm extends Component {
             case "confirmPass":
                 newStateProp = { confirmPass: val };
                 break;
-            case "email":
+            case "userEmail":
                 newStateProp = { userEmail: val };
                 break;
             case "share":
@@ -112,7 +125,14 @@ export class DashForm extends Component {
                 break;
         }
 
-        if (newStateProp) { this.setState(newStateProp); }
+        if (newStateProp) {
+            if (this.fieldTests[elName]) {
+                let dataProp = { ...newStateProp };
+                if (elName === "confirmPass") { dataProp["newPass"] = this.state.newPass; }
+                this.validator.validate(dataProp, { [elName]: this.fieldTests[elName] });
+            }
+            this.setState(newStateProp);
+        }
     }
 
     addAnnouncement = () => {
@@ -173,11 +193,20 @@ export class DashForm extends Component {
     handleSubmit(event) {
         event.preventDefault();
         let isDeletion = this.submitAction === 'killKup' ? true : false;
+
+        let isInvalid;
+        if (!isDeletion && (isInvalid = this.validator.isInvalid(this.state))) {
+            this.forceUpdate();
+            alert("Invalid Form fields!!" + isInvalid);
+            return;
+        }
+
         let message = "Your Kupboard account has been " + (
             isDeletion ? "deleted." :
                 "updated.\n" + JSON.stringify(this.state)
         );
         this.submitAction = false;
+
         alert(message);
         if (!isDeletion) {
             this.props.onUpdate({
@@ -211,6 +240,8 @@ export class DashForm extends Component {
     }
 
     render() {
+        const errors = this.validator.errors;
+
         return (
             <Form className="py-3" onSubmit={event => this.handleSubmit(event)}>
 
@@ -271,31 +302,37 @@ export class DashForm extends Component {
                         <h5 className="dash-header">Location</h5>
                         <FormGroup>
                             <Label for="address">Street Address</Label>
-                            <Input type="text" name="address" id="address" placeholder="11 N First" required value={this.state.address} onChange={this.handleChange} />
+                            <Input type="text" name="address" id="address" placeholder="11 N First" required value={this.state.address} onChange={this.handleChange} invalid={errors.address} />
+                            <FormFeedback>{errors.address}</FormFeedback>
                         </FormGroup>
                         <Row>
                             <FormGroup className="col-4 col-sm-3">
                                 <Label for="zip">Zip</Label>
-                                <Input type="number" name="zip" id="zip" value={this.state.zip} required onChange={this.handleChange} onBlur={event => this.autofill(event)} />
+                                <Input type="number" name="zip" id="zip" value={this.state.zip} required onChange={this.handleChange} onBlur={event => this.autofill(event)} invalid={errors.zip} />
+                                <FormFeedback>{errors.zip}</FormFeedback>
                             </FormGroup>
                             <FormGroup className="col-4 col-sm-6">
                                 <Label for="city">City</Label>
-                                <Input type="text" name="city" id="city" placeholder="Madison" required value={this.state.city} onChange={this.handleChange} />
+                                <Input type="text" name="city" id="city" placeholder="Madison" required value={this.state.city} onChange={this.handleChange} invalid={errors.city} />
+                                <FormFeedback>{errors.city}</FormFeedback>
                             </FormGroup>
                             <FormGroup className="col-4 col-sm-3">
                                 <Label for="state">State</Label>
-                                <StateSelect name="state" id="state" required={true} value={this.state.state} change={this.handleChange} />
+                                <StateSelect name="state" id="state" required={true} value={this.state.state} change={this.handleChange} invalid={errors.state} />
+                                <FormFeedback>{errors.state}</FormFeedback>
                             </FormGroup>
                         </Row>
                         <h5 className="dash-header">Details</h5>
                         <Row className="pb-2">
                             <FormGroup className="col-sm-6">
                                 <Label>First Name</Label>
-                                <Input type="text" name="FirstName" id="FirstName" value={this.state.userName} required={true} onChange={this.handleChange} />
+                                <Input type="text" name="userName" id="userName" value={this.state.userName} required={true} onChange={this.handleChange} invalid={errors.userName} />
+                                <FormFeedback>{errors.userName}</FormFeedback>
                             </FormGroup>
                             <FormGroup className="col-sm-6">
                                 <Label>Last Name</Label>
-                                <Input type="text" name="LastName" id="LastName" value={this.state.userLastName} required={true} onChange={this.handleChange} />
+                                <Input type="text" name="userLastName" id="userLastName" value={this.state.userLastName} required={true} onChange={this.handleChange} invalid={errors.userLastName} />
+                                <FormFeedback>{errors.userLastName}</FormFeedback>
                             </FormGroup>
                             <FormGroup className="col-12">
                                 <Label>Description <small>(500 characters max)</small>:</Label>
@@ -305,7 +342,8 @@ export class DashForm extends Component {
 
                         <FormGroup>
                             <Label htmlFor="email">Email</Label>
-                            <Input type="text" name="email" id="email" value={this.state.userEmail} required={true} onChange={this.handleChange} />
+                            <Input type="text" name="userEmail" id="userEmail" value={this.state.userEmail} required={true} onChange={this.handleChange} invalid={errors.userEmail} />
+                            <FormFeedback>{errors.userEmail}</FormFeedback>
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor="share" >Share Link</Label>
@@ -317,19 +355,20 @@ export class DashForm extends Component {
                             <Col xs="12" lg="4">
                                 <FormGroup>
                                     <Label htmlFor="oldPass" >Old Password</Label>
-                                    <Input type="text" name="oldPass" id="oldPass" value={this.state.oldPass} onChange={this.handleChange} />
+                                    <Input type="password" name="oldPass" id="oldPass" value={this.state.oldPass} onChange={this.handleChange} />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="6" lg="4">
                                 <FormGroup>
                                     <Label htmlFor="newPass" >New Password</Label>
-                                    <Input type="text" name="newPass" id="newPass" value={this.state.newPass} onChange={this.handleChange} />
+                                    <Input type="password" name="newPass" id="newPass" value={this.state.newPass} onChange={this.handleChange} />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="6" lg="4">
                                 <FormGroup>
                                     <Label htmlFor="confirmPass" >Confirm Password</Label>
-                                    <Input type="text" name="confirmPass" id="confirmPass" value={this.state.confirmPass} onChange={this.handleChange} />
+                                    <Input type="password" name="confirmPass" id="confirmPass" value={this.state.confirmPass} onChange={this.handleChange} invalid={errors.confirmPass} />
+                                    <FormFeedback>{errors.confirmPass}</FormFeedback>
                                 </FormGroup>
                             </Col>
                         </Row>
@@ -392,7 +431,7 @@ export function DaySchedule(props) {
 }
 
 
-export function InventoryItemDash({ req, act, qty, name, id, change, index }) {
+export function InventoryItemDash({ req, active, qty, name, id, change, index }) {
     return (
 
         <InputGroup tag="li" className="mb-2 no-gutters" key={id}>
@@ -403,7 +442,7 @@ export function InventoryItemDash({ req, act, qty, name, id, change, index }) {
                     <input name={"request[" + id + "]"} id={"request" + id} type="checkbox" checked={req ? true : false} onClick={event => change(event, index)} />
                 </InputGroupText>
                 <InputGroupText tag="label">
-                    <input name={"active[" + id + "]"} id={"active" + id} type="checkbox" checked={act ? true : false} onClick={event => change(event, index)} />
+                    <input name={"active[" + id + "]"} id={"active" + id} type="checkbox" checked={active ? true : false} onClick={event => change(event, index)} />
                 </InputGroupText>
                 <InputGroupText tag="label" className="text-secondary">
                     <i className="fa fa-close delete" onClick={event => change(event, index)}></i>
