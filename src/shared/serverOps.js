@@ -1,7 +1,7 @@
 const SERVER_LOC = 'https://localhost:3443';
 
 
-const getTokenFromCookie = () => (document.cookie.match(/^(?:.*;)?\s*kuplogged\s*=\s*([^;]+)(?:.*)?$/) || [null, null])[1];
+const getTokenFromCookie = () => (document.cookie.match(/^(?:.*;)?\s*token\s*=\s*([^;]+)(?:.*)?$/) || [null, null])[1];
 
 export const handleRequest = (url, token = null, method = 'GET', body = null, hParams = {}, stringy = true) => {
     let headers = { 'Content-Type': 'application/json', ...hParams };

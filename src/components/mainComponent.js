@@ -14,9 +14,6 @@ import { LoginPage, SignUpPage } from './loginAndSignUpComponent';
 import ViewKBPage from './viewKBPageComponent';
 import DashboardPage from './dashboardPageComponent';
 
-import * as serverOps from '../shared/serverOps';
-
-
 const LOGGED_OUT = {
     url: '/login/',
     icon: 'fa fa-sign-in',
@@ -72,7 +69,11 @@ class Main extends Component {
                 </header>
                 <Switch>
                     <Route exact path={["/", "/home/", "/about/", "/view/"]} component={HomeContent} />
-                    <Route exact path={["/login/", "/dash/"]} render={() => <LoginPage loginFoo={this.loginFoo} />} />
+                    <Route exact path={["/login/", "/dash/"]}
+                        render={() => !LOGGED_STATE.isLogged ?
+                            (<LoginPage loginFoo={this.loginFoo} />)
+                            : (<Redirect to={{ pathname: LOGGED_STATE.url }} />)
+                        } />
                     <Route exact path="/signup/" component={SignUpPage} />
                     <Route path="/find/" component={findKupboard} />
                     <Route path="/view/:kup" component={ViewKBPage} />
