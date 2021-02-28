@@ -6,8 +6,8 @@ function KupboardView(props) {
 	let inventory = [];
 	let requests = [];
 	if (Array.isArray(props.inventory)) {
-		inventory = props.inventory.filter(item => item.active);
-		requests = props.inventory.filter(item => item.active && item.req);
+		inventory = props.inventory.filter(item => item.act);
+		requests = props.inventory.filter(item => item.act && item.req);
 	}
 	return (
 		<React.Fragment>

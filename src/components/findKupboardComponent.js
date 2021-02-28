@@ -3,7 +3,8 @@ import { Col, Row, Form, FormGroup, Label, Input, Button, Container } from 'reac
 import { StateSelect } from './selectOptsComponent';
 import MainWrap from './mainWrapComponent';
 
-import { kbRoster } from '../shared/KBroster';
+//import { kbRoster } from '../shared/KBroster';
+import * as serverOps from '../shared/serverOps';
 
 
 export class FindFormPlusList extends Component {
@@ -13,6 +14,7 @@ export class FindFormPlusList extends Component {
             city: null,
             state: null,
             zip: null,
+            kups: []
         };
         this.zipRef = React.createRef();
         this.cityRef = React.createRef();
@@ -21,30 +23,37 @@ export class FindFormPlusList extends Component {
 
     updateList = (event) => {
         event.preventDefault();
-
         let newLocation = {
             zip: this.zipRef.current ? this.zipRef.current.value : null,
             state: this.stateRef.current ? this.stateRef.current.value : null,
             city: this.cityRef.current ? this.cityRef.current.value : null
         };
-
-        this.setState(newLocation);
+        let search = serverOps.nullFilter(newLocation);
+        // alert(JSON.stringify(localle));
+        // alert(JSON.stringify(newLocation));
+        search = !search ? null : search;
+        serverOps.findRequest(null, null)
+            .then(found => {
+                this.setState({ ...newLocation, kups: found.kupboards });
+                alert(JSON.stringify(found));
+            })
+            .catch(err => console.log(err));
     }
 
 
     render() {
 
-        let locations = Object.values(kbRoster).filter(location =>
-            (!this.state.state || this.state.state === location.state) &&
-            (!this.state.zip || this.state.zip === location.zip) &&
-            (!this.state.city || this.state.city === location.city)
-        );
+        // let locations = Object.values(kbRoster).filter(location =>
+        //     (!this.state.state || this.state.state === location.state) &&
+        //     (!this.state.zip || this.state.zip === location.zip) &&
+        //     (!this.state.city || this.state.city === location.city)
+        // );
         return (
             <React.Fragment>
                 <MainWrap>
                     <FindForm onSub={this.updateList} zipRef={this.zipRef} cityRef={this.cityRef} stateRef={this.stateRef} />
                 </MainWrap>
-                <KBList list={locations} />
+                <KBList list={this.state.kups} />
             </React.Fragment >
         );
     }
@@ -108,7 +117,8 @@ export function KBList(props) {
 
 
 
-export function KBListItem({ img, alt, name, address, city, state, zip, itemTypeCt, hours, id }) {
+export function KBListItem({ img, alt, name, address, city, state, zip, itemTypeCt, hours, _id }) {
+    let id = _id;
     img = img ? img : "default.jpg";
     return (
         <Container tag="li" fluid key={"KBListItem" + id} >

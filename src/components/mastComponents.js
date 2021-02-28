@@ -10,7 +10,8 @@ import {
     Button,
 } from 'reactstrap';
 
-import { kbRoster } from '../shared/KBroster';
+//import { kbRoster } from '../shared/KBroster';
+import * as serverOps from '../shared/serverOps';
 
 
 
@@ -26,36 +27,60 @@ export function BrandJumbo(props) {
     );
 }
 
-export function UserJumbo(props) {
-    let kup = kbRoster['kup_' + props.match.params.kup];
-    let errMess = "That Kupboard doesn't exist";
-    if (props.match.path === "/dash/:kup" && props.auth !== props.match.params.kup) {
-        kup = false;
-        errMess = "Improper Kupboard access."
-    }
-    kup = kup ? kup : {
-        mast: "/assets/1140x440.png",
-        mastAlt: "missing Kupboard",
-        name: "Oops!",
-        details: errMess,
-        share: null,
-        missing: true
-    };
-    let btnText = "Share Page";
-    let detailText = kup.details;
-    if (kup && !kup.missing && props.match.path.indexOf('/dash/') > -1) {
-        kup.share = '/view/' + props.match.params.kup;
-        btnText = "View Kupboard";
-        detailText = "Edit your Kupboard here.";
+export class UserJumbo extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            kupData: false
+        }
     }
 
-    let share = kup.share ? { txt: btnText, url: kup.share, attrs: { target: '_blank' } } : null;
+    componentDidMount() {
+        let { kup } = this.props.match ? this.props.match.params : '';
+        serverOps.viewRequest(kup, '')
+            .then(kupboard => {
+                if (kupboard.err) { kupboard = false; }
+                this.setState({ kupData: kupboard })
+            })
+            .catch(err => {
+                this.setState({ kupData: false });
+                console.log(err)
+            });
+    }
 
-    return (
-        <BrandJumbo {...props} imageSet={{ src: kup.mast, alt: kup.mastAlt, bp: 0 }} title={kup.name} text={detailText} button={share} />
-    );
+
+    render() {
+        let props = this.props;
+        let kup = this.state.kupData;
+        let errMess = "That Kupboard doesn't exist";
+        if (props.match.path === "/dash/:kup" && props.auth !== props.match.params.kup) {
+            kup = false;
+            errMess = "Improper Kupboard access."
+        }
+        kup = kup ? kup : {
+            mast: "/assets/1140x440.png",
+            mastAlt: "missing Kupboard",
+            name: "Oops!",
+            details: errMess,
+            share: null,
+            missing: true
+        };
+        let btnText = "Share Page";
+        let detailText = kup.details;
+        if (kup && !kup.missing && props.match.path.indexOf('/dash/') > -1) {
+            kup.share = '/view/' + props.match.params.kup;
+            btnText = "View Kupboard";
+            detailText = "Edit your Kupboard here.";
+        }
+
+        let share = kup.share ? { txt: btnText, url: kup.share, attrs: { target: '_blank' } } : null;
+
+        return (
+            <BrandJumbo {...props} imageSet={{ src: kup.mast, alt: kup.mastAlt, bp: 0 }} title={kup.name} text={detailText} button={share} />
+        );
+    }
 }
-
 
 export class MastheadSlide extends Component {
     render() {
