@@ -61,7 +61,7 @@ export class DashForm extends Component {
                 break;
             case "active":
                 newStateProp = this.state.items;
-                newStateProp[index].act = el.checked;
+                newStateProp[index].active = el.checked;
                 break;
             case "fa fa-close delete":
                 newStateProp = this.state.items.splice(index, 1);

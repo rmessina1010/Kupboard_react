@@ -3,8 +3,9 @@ import { Row, Col, Button, Card, CardImg, Form, FormGroup, Label, Input, FormFee
 import MainWrap from './mainWrapComponent';
 import { StateSelect } from './selectOptsComponent';
 import { Prefoot } from './prefootComponent';
-import userRoster from '../shared/userRoster';
-import validator from '../shared/validation'
+//import userRoster from '../shared/userRoster';
+import validator from '../shared/validation';
+import * as serverOps from '../shared/serverOps';
 
 export function LoginPage(props) {
     return (
@@ -95,11 +96,11 @@ export class LoginForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        let success = (userRoster[this.state.kupboadName] && userRoster[this.state.kupboadName].password === this.state.password && userRoster[this.state.kupboadName].email === this.state.email) ? true : false;
-        this.props.setMessage(success ? <small className="d-block text-success font-weight-normal">Welcome. You are now logged in.</small> : <small className="font-weight-normal d-block text-danger">Login failed!!</small>);
-        if (success && typeof this.props.loginFoo === 'function') {
-            this.props.loginFoo(userRoster[this.state.kupboadName]);
-        }
+        serverOps.loginRequest(this.state.kupboadName, this.state.password)
+            .then(loggedUser => {
+                this.props.setMessage(loggedUser.success ? <small className="d-block text-success font-weight-normal">Welcome. You are now logged in.</small> : <small className="font-weight-normal d-block text-danger">Login failed!!</small>);
+                if (loggedUser.success && typeof this.props.loginFoo === 'function') { this.props.loginFoo(loggedUser); }
+            })
     }
 
 

@@ -18,7 +18,7 @@ export class Prefoot extends Component {
             if (map) {
                 loc = encodeURI(map.address + ' ' + map.city + map.state + map.zip)
                 src = "https://maps.google.com/maps?width=100%25&height=300&hl=en&q=" + loc + "&ie=UTF8&output=embed";
-                map = (<iframe title="map" width="100%" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src={src} allowfullscreen="" aria-hidden="false" tabindex="0" style={{ border: '5px #fff solid;' }} ></ iframe>);
+                map = (<iframe className="kupmap" title="map" width="100%" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src={src} allowfullscreen="" aria-hidden="false" tabindex="0" style={{ border: '5px #fff solid;' }} ></ iframe>);
             } else { map = null; }
             prefootContent = (<Container fluid>
                 <Row>

@@ -34,7 +34,7 @@ export let kbRoster =
         mast: "/assets/user_mast_1140x440.jpg",
         mastAlt: "curbmast",
         name: "Test Kupboard #2",
-        address: "40 Bedford Street",
+        address: "1801 Main St. E",
         city: "Rochester",
         state: "NY",
         zip: "14609",

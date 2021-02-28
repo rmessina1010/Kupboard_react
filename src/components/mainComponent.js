@@ -14,6 +14,9 @@ import { LoginPage, SignUpPage } from './loginAndSignUpComponent';
 import ViewKBPage from './viewKBPageComponent';
 import DashboardPage from './dashboardPageComponent';
 
+import * as serverOps from '../shared/serverOps';
+
+
 const LOGGED_OUT = {
     url: '/login/',
     icon: 'fa fa-sign-in',
@@ -40,16 +43,18 @@ class Main extends Component {
     }
 
     loginFoo(userData) {
-        let id = userData.id.split('kup_')[1];
+        let id = userData.kupId;
         this.setState({
             logged: { ...LOGGED_IN, kup: id, url: '/dash/' + id }
         });
         document.cookie = "kuplogged=" + id + ";path=/";
+        document.cookie = "token=" + userData.token + ";path=/";
         window.location = '/dash/' + id;
     }
 
     logoutFoo() {
         document.cookie = "kuplogged=;path=/";
+        document.cookie = "token=;path=/";
         this.setState(LOGGED_OUT);
         window.location = "/login/";
     }
