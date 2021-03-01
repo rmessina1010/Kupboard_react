@@ -2,6 +2,7 @@ const SERVER_LOC = 'https://localhost:3443';
 
 
 const getTokenFromCookie = () => (document.cookie.match(/^(?:.*;)?\s*token\s*=\s*([^;]+)(?:.*)?$/) || [null, null])[1];
+const getKupIdFromCookie = () => (document.cookie.match(/^(?:.*;)?\s*kuplogged\s*=\s*([^;]+)(?:.*)?$/) || [null, null])[1];
 
 export const nullFilter = (obj) => {
     let keys = Object.keys(obj);
@@ -69,13 +70,7 @@ export const uniqueNameRequest = kupname => {
 }
 
 export const dashRequest = (seg, method = 'GET', payload = null) => {
-    let sessionToken;
-    let userKupId;
-    return handleRequest(SERVER_LOC + '/dash/' + userKupId + '/' + seg, sessionToken, method, payload)
-        .then(loggedUser => {
-            //create session data
-            //redirect
-        })
+    return handleRequest(SERVER_LOC + '/dash/' + getKupIdFromCookie() + '/' + seg, getTokenFromCookie(), method, payload)
         .catch(err => ({ err: { fetch: err } }))
 }
 

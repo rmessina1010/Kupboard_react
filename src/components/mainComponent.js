@@ -77,7 +77,7 @@ class Main extends Component {
                     <Route exact path="/signup/" render={() => (<SignUpPage loginFoo={this.loginFoo} />)} />
                     <Route path="/find/" component={findKupboard} />
                     <Route path="/view/:kup" component={ViewKBPage} />
-                    <Route path="/dash/:kup" render={(rprops) => <DashboardPage auth={this.state.logged.kup} {...rprops} />} />
+                    <Route path="/dash/:kup" render={(rprops) => <DashboardPage auth={this.state.logged.kup} {...rprops} logoutFoo={this.logoutFoo} />} />
                     <Redirect to="/home/" />
                 </Switch>
                 <Footer pages={SiteData.pages} social={SiteData.social} info={SiteData.info} />

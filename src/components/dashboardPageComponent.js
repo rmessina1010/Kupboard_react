@@ -4,38 +4,61 @@ import MainWrap from './mainWrapComponent';
 
 import { Prefoot } from './prefootComponent';
 
-import { kbItems, kbAnnounce, kbRoster } from '../shared/KBroster';
+// import { kbItems, kbAnnounce, kbRoster } from '../shared/KBroster';
+import * as serverOps from '../shared/serverOps';
 
+const DEFAULT_DASH_STATE = {
+    kup: false,
+    hours: [],
+    announce: [],
+    inventory: [],
+    kupData: null
+}
 class DashboardPage extends Component {
 
     constructor(props) {
         super(props);
-        let { kup } = this.props.match ? this.props.match.params : {};
-        let announce = [];
-        let inventory = [];
-        let next_ann = 1;
-        let next_item = 1;
-        let kupData = false;
-        if (kup === this.props.auth && kbRoster['kup_' + kup]) {
-            if (kbAnnounce['commentsIn_' + kup]) {
-                announce = kbAnnounce['commentsIn_' + kup].announce;
-                next_ann = kbAnnounce['commentsIn_' + kup].nextid;
-            }
-            if (kbItems['itemsIn_' + kup]) {
-                inventory = kbItems['itemsIn_' + kup].inventory;
-            }
-            kupData = kbRoster['kup_' + kup];
-            next_item = kbItems['itemsIn_' + kup].nextid;
-        }
-        this.state = {
-            kup: kup,
-            next_ann: next_ann,
-            next_item: next_item,
-            announce: announce,
-            inventory: inventory,
-            kupData: kupData
-        }
+        // let announce = [];
+        // let inventory = [];
+        // let next_ann = 1;
+        //  let next_item = 1;
+        // let kupData = false;
+        // if (kup === this.props.auth && kbRoster['kup_' + kup]) {
+        //     if (kbAnnounce['commentsIn_' + kup]) {
+        //         announce = kbAnnounce['commentsIn_' + kup].announce;
+        //         next_ann = kbAnnounce['commentsIn_' + kup].nextid;
+        //     }
+        //     if (kbItems['itemsIn_' + kup]) {
+        //         inventory = kbItems['itemsIn_' + kup].inventory;
+        //     }
+        //     kupData = kbRoster['kup_' + kup];
+        //      next_item = kbItems['itemsIn_' + kup].nextid;
+        // }
+        this.state = DEFAULT_DASH_STATE
     }
+    componentDidMount() {
+        let { kup } = this.props.match ? this.props.match.params : '';
+        if (document.cookie.indexOf('kuplogged=' + kup) > -1) {
+            serverOps.viewRequest(kup, '')
+                .then(kupboard => {
+                    let newState = (kupboard.err) ? DEFAULT_DASH_STATE :
+                        {
+                            kupData: kupboard,
+                            kup: kup,
+                            hours: kupboard.hours,
+                            announce: kupboard.bulletins,
+                            inventory: kupboard.inventory,
+                        };
+                    this.setState(newState);
+                })
+                .catch(err => {
+                    this.setState(DEFAULT_DASH_STATE);
+                    console.log(err)
+                });
+        }
+        else { this.setState(DEFAULT_DASH_STATE); }
+    }
+
 
     updateFooter = (newState) => this.setState(newState);
 
@@ -43,7 +66,14 @@ class DashboardPage extends Component {
         return this.state.kupData ?
             (<React.Fragment>
                 <MainWrap>
-                    <DashForm items={this.state.inventory} kupboard={this.state.kupData} comments={this.state.announce} kup_id={this.state.kup} next_item={this.state.next_item} next_ann={this.state.next_ann} onUpdate={this.updateFooter} />
+                    <DashForm
+                        items={this.state.inventory}
+                        kupboard={this.state.kupData}
+                        comments={this.state.announce}
+                        kup_id={this.state.kup}
+                        onUpdate={this.updateFooter}
+                        logoutFoo={this.props.logoutFoo}
+                    />
                 </MainWrap>
                 <Prefoot map={this.state.kupData} heading={this.state.kup && this.state.kupData.map ? null : "Map not available."} xl="6" />
             </React.Fragment >)

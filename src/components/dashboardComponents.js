@@ -3,6 +3,7 @@ import { Col, Row, FormGroup, Label, Input, Button, Form, InputGroupAddon, Input
 import InputGroup from 'reactstrap/lib/InputGroup';
 import { DaySelect, StateSelect } from './selectOptsComponent'
 import validator from '../shared/validation'
+import * as serverOps from '../shared/serverOps';
 
 
 export class DashForm extends Component {
@@ -193,50 +194,59 @@ export class DashForm extends Component {
     handleSubmit(event) {
         event.preventDefault();
         let isDeletion = this.submitAction === 'killKup' ? true : false;
+        ///Delete Account
+        if (isDeletion) {
+            let confirm = window.confirm('Are You certain you want to cancel your Kupboard Acoount.\n This action CANNOT be undone.');
+            if (!confirm) { return }
+            serverOps.dashRequest('', 'DELETE')
+                .then(() => this.props.logoutFoo())
+                .catch(err => console.log(err));
+            return;
+        }
 
         let isInvalid;
-        if (!isDeletion && (isInvalid = this.validator.isInvalid(this.state))) {
+        if (isInvalid = this.validator.isInvalid(this.state)) {
             this.forceUpdate();
             alert("Invalid Form fields!!" + isInvalid);
             return;
         }
 
-        let message = "Your Kupboard account has been " + (
-            isDeletion ? "deleted." :
-                "updated.\n" + JSON.stringify(this.state)
-        );
+        //let message = "Your Kupboard account has been updated.\n" + JSON.stringify(this.state);
         this.submitAction = false;
+        ///Delete Account
+        /// Upload Pics
+        /// Update KupData
+        /// Updte Items
+        /// Updte hours
+        /// Updte bulletin
 
-        alert(message);
-        if (!isDeletion) {
-            this.props.onUpdate({
-                next_ann: this.state.next_ann,
-                next_item: this.state.next_item,
-                announce: this.state.announcements,
-                inventory: this.state.items,
-                kupData: {
-                    img: this.state.img,
-                    alt: this.state.alt,
-                    mast: this.state.mast,
-                    mastAlt: this.state.Alt,
-                    name: this.state.name,
-                    address: this.state.address,
-                    city: this.state.city,
-                    state: this.state.state,
-                    zip: this.state.zip,
-                    itemTypeCt: this.state.itemTypeCt,
-                    hours: this.state.hours,
-                    details: this.state.details,
-                    share: this.state.share,
-                    userName: this.state.userName,
-                    userLastName: this.state.userLastName,
-                    userEmail: this.state.userEmail,
-                    userPassword: this.state.userPassword,
-                    map: this.state.map,
-                    id: this.state.id
-                }
-            });
-        }
+        this.props.onUpdate({
+            next_ann: this.state.next_ann,
+            next_item: this.state.next_item,
+            announce: this.state.announcements,
+            inventory: this.state.items,
+            kupData: {
+                img: this.state.img,
+                alt: this.state.alt,
+                mast: this.state.mast,
+                mastAlt: this.state.Alt,
+                name: this.state.name,
+                address: this.state.address,
+                city: this.state.city,
+                state: this.state.state,
+                zip: this.state.zip,
+                itemTypeCt: this.state.itemTypeCt,
+                hours: this.state.hours,
+                details: this.state.details,
+                share: this.state.share,
+                userName: this.state.userName,
+                userLastName: this.state.userLastName,
+                userEmail: this.state.userEmail,
+                userPassword: this.state.userPassword,
+                map: this.state.map,
+                id: this.state.id
+            }
+        });
     }
 
     render() {
@@ -375,7 +385,7 @@ export class DashForm extends Component {
                         <Button type="submit" className="mr-3" color="primary" id="updateKbottom" value="updateK" onClick={
                             () => this.submitAction = "updateK"}>Update Kupboard</Button>
                         <Button type="submit" color="secondary" name="killKup" id="killKup" value="killKup" onClick={
-                            () => this.submitAction = "killKup"}>Delete Kupboard</Button>
+                            () => this.submitAction = "killKup"} formNoValidate={true}>Delete Kupboard</Button>
                     </Col>
                 </Row>
             </Form>);
