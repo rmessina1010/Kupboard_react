@@ -86,8 +86,13 @@ class DashboardPage extends Component {
         let updateKBinDB = { ...newState.kupData }
         if (!updateKBinDB.img) { delete updateKBinDB.img }
         if (!updateKBinDB.mast) { delete updateKBinDB.mast }
+        //delete updateKBinDB.userPassword;
         serverOps.dashRequest('', 'PUT', { updateKup: updateKBinDB })
             .then(kup => {
+                if (newState.newPass) {
+                    serverOps.dashRequest('password', 'PUT', { newpass: newState.newPass, kup: newState.kupData.name })
+                        .catch(err => console.log(err));
+                }
                 //alert(JSON.stringify(kup));
                 this.setState(newState)
             })

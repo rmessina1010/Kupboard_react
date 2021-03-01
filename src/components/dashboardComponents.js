@@ -219,13 +219,14 @@ export class DashForm extends Component {
         /// Update Items
         /// Update hours
         /// Update bulletin
-        /// Update password
+        /// Update password **done**
 
         this.props.onUpdate({
             // next_ann: this.state.next_ann,
             // next_item: this.state.next_item,
             announce: this.state.announcements,
             inventory: this.state.items,
+            newPass: this.state.newPass,
             kupData: {
                 img: this.state.img,
                 alt: this.state.alt,
@@ -243,7 +244,7 @@ export class DashForm extends Component {
                 userName: this.state.userName,
                 userLastName: this.state.userLastName,
                 userEmail: this.state.userEmail,
-                userPassword: this.state.userPassword,
+                //userPassword: this.state.userPassword,
                 map: this.state.map,
                 // id: this.state.id
             }
