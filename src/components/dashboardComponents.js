@@ -11,8 +11,8 @@ export class DashForm extends Component {
         super(props);
         this.state = {
             kb_id: this.props.kup_id,
-            next_ann: this.props.next_ann,
-            next_item: this.props.next_item,
+            // next_ann: this.props.next_ann,
+            // next_item: this.props.next_item,
             announcements: this.props.comments,
             items: this.props.items,
             submit: null,
@@ -213,16 +213,17 @@ export class DashForm extends Component {
 
         //let message = "Your Kupboard account has been updated.\n" + JSON.stringify(this.state);
         this.submitAction = false;
-        ///Delete Account
+
         /// Upload Pics
-        /// Update KupData
-        /// Updte Items
-        /// Updte hours
-        /// Updte bulletin
+        /// Update KupData **done**
+        /// Update Items
+        /// Update hours
+        /// Update bulletin
+        /// Update password
 
         this.props.onUpdate({
-            next_ann: this.state.next_ann,
-            next_item: this.state.next_item,
+            // next_ann: this.state.next_ann,
+            // next_item: this.state.next_item,
             announce: this.state.announcements,
             inventory: this.state.items,
             kupData: {
@@ -244,7 +245,7 @@ export class DashForm extends Component {
                 userEmail: this.state.userEmail,
                 userPassword: this.state.userPassword,
                 map: this.state.map,
-                id: this.state.id
+                // id: this.state.id
             }
         });
     }

@@ -34,20 +34,19 @@ class DashboardPage extends Component {
         //     kupData = kbRoster['kup_' + kup];
         //      next_item = kbItems['itemsIn_' + kup].nextid;
         // }
-        this.state = DEFAULT_DASH_STATE
-    }
-    componentDidMount() {
+        this.state = DEFAULT_DASH_STATE;
+
         let { kup } = this.props.match ? this.props.match.params : '';
         if (document.cookie.indexOf('kuplogged=' + kup) > -1) {
-            serverOps.viewRequest(kup, '')
+            serverOps.dashRequest('', 'GET', null)
                 .then(kupboard => {
                     let newState = (kupboard.err) ? DEFAULT_DASH_STATE :
                         {
-                            kupData: kupboard,
-                            kup: kup,
-                            hours: kupboard.hours,
-                            announce: kupboard.bulletins,
-                            inventory: kupboard.inventory,
+                            kupData: kupboard.theKup,
+                            kup: kupboard.theKup._id,
+                            hours: kupboard.theKup.hours,
+                            announce: kupboard.theKup.bulletins,
+                            inventory: kupboard.theKup.inventory,
                         };
                     this.setState(newState);
                 })
@@ -58,9 +57,47 @@ class DashboardPage extends Component {
         }
         else { this.setState(DEFAULT_DASH_STATE); }
     }
+    componentDidMount() {
+        // let { kup } = this.props.match ? this.props.match.params : '';
+        // if (document.cookie.indexOf('kuplogged=' + kup) > -1) {
+        //     serverOps.dashRequest('', 'GET', null)
+        //         .then(kupboard => {
+        //             alert(JSON.stringify(kupboard));
+        //             let newState = (kupboard.err) ? DEFAULT_DASH_STATE :
+        //                 {
+        //                     kupData: kupboard.theKup,
+        //                     kup: kupboard.theKup._id,
+        //                     hours: kupboard.theKup.hours,
+        //                     announce: kupboard.theKup.bulletins,
+        //                     inventory: kupboard.theKup.inventory,
+        //                 };
+        //             this.setState(newState);
+        //         })
+        //         .catch(err => {
+        //             this.setState(DEFAULT_DASH_STATE);
+        //             console.log(err)
+        //         });
+        // }
+        // else { this.setState(DEFAULT_DASH_STATE); }
+    }
 
 
-    updateFooter = (newState) => this.setState(newState);
+    updateFooter = (newState) => {
+        let updateKBinDB = { ...newState.kupData }
+        if (!updateKBinDB.img) { delete updateKBinDB.img }
+        if (!updateKBinDB.mast) { delete updateKBinDB.mast }
+        serverOps.dashRequest('', 'PUT', { updateKup: updateKBinDB })
+            .then(kup => {
+                //alert(JSON.stringify(kup));
+                this.setState(newState)
+            })
+            .catch(err => {
+                console.log(err);
+                // alert(JSON.stringify("!!!"));
+            });
+
+
+    }
 
     render() {
         return this.state.kupData ?
