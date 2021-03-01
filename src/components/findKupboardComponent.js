@@ -21,6 +21,14 @@ export class FindFormPlusList extends Component {
         this.stateRef = React.createRef();
     }
 
+    componentDidMount() {
+        serverOps.findRequest(null)
+            .then(found => {
+                this.setState({ city: null, state: null, zip: null, kups: found.kupboards });
+            })
+            .catch(err => console.log(err));
+    }
+
     updateList = (event) => {
         event.preventDefault();
         let newLocation = {
@@ -31,11 +39,10 @@ export class FindFormPlusList extends Component {
         let search = serverOps.nullFilter(newLocation);
         // alert(JSON.stringify(localle));
         // alert(JSON.stringify(newLocation));
-        search = !search ? null : search;
-        serverOps.findRequest(null, null)
+        serverOps.findRequest(search, null)
             .then(found => {
                 this.setState({ ...newLocation, kups: found.kupboards });
-                alert(JSON.stringify(found));
+                //alert(JSON.stringify(found));
             })
             .catch(err => console.log(err));
     }
@@ -107,7 +114,7 @@ export class FindForm extends Component {
 }
 
 export function KBList(props) {
-    return props.list ? (
+    return props.list.length ? (
         <ul className="results-list">
             {props.list.map(item => <KBListItem  {...item} />)}
         </ul>

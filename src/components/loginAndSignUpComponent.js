@@ -22,7 +22,7 @@ export function SignUpPage(props) {
     return (
         <React.Fragment>
             <MainWrap>
-                <LoginContainer useLogin={false}>
+                <LoginContainer useLogin={false} loginFoo={props.loginFoo}>
                     <Row className=" bottom-rule no-gutters">
                         <Col tag="p" className="small text-muted col-12 col-md-8 mx-auto small-pad-x">Lorem ipsum dolor sit amet
                         consectetur adipisicing elit. Id corporis laudantium quam nobis voluptas labore
@@ -73,7 +73,7 @@ export class LoginContainer extends Component {
                         <Card className="form-container">
                             {header}
                             {this.props.children}
-                            {this.props.useLogin ? <LoginForm setMessage={this.setStatusMessage} loginFoo={this.props.useLogin} /> : <SignUpForm />}
+                            {this.props.useLogin ? <LoginForm setMessage={this.setStatusMessage} loginFoo={this.props.useLogin} /> : <SignUpForm loginFoo={this.props.loginFoo} />}
                         </Card>
                     </Col>
                 </Row>
@@ -257,7 +257,26 @@ export class SignUpForm extends Component {
             alert("Invalid Form fields!!" + isInvalid);
             return;
         }
-        alert("Creating Account for:\n" + JSON.stringify(this.state));
+        serverOps.uniqueNameRequest(this.state.kupboadName)
+            .then(notUnique => {
+                if (!notUnique) {
+                    serverOps.joinRequest(this.state)
+                        .then(newAcc => {
+                            // alert("Creating Account for:\n" + JSON.stringify(this.state));
+                            serverOps.loginRequest(this.state.kupboadName, this.state.password)
+                                .then(loggedUser => {
+                                    alert(JSON.stringify(this.props.loginFoo))
+                                    //this.props.setMessage(loggedUser.success ? <small className="d-block text-success font-weight-normal">Welcome. You are now logged in.</small> : <small className="font-weight-normal d-block text-danger">Login failed!!</small>);
+                                    if (loggedUser.success && typeof this.props.loginFoo === 'function') { this.props.loginFoo(loggedUser); }
+                                })
+                                .catch(err => console.log(err))
+                        })
+                        .catch(err => console.log(err))
+                } else {
+                    alert("'" + this.state.kupboadName + "' is alredy in use. Please choose a different name for your Kupboard.");
+                }
+            })
+            .catch(err => console.log(err))
     }
 
     autofill(event) {

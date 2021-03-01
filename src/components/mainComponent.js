@@ -74,7 +74,7 @@ class Main extends Component {
                             (<LoginPage loginFoo={this.loginFoo} />)
                             : (<Redirect to={{ pathname: LOGGED_STATE.url }} />)
                         } />
-                    <Route exact path="/signup/" component={SignUpPage} />
+                    <Route exact path="/signup/" render={() => (<SignUpPage loginFoo={this.loginFoo} />)} />
                     <Route path="/find/" component={findKupboard} />
                     <Route path="/view/:kup" component={ViewKBPage} />
                     <Route path="/dash/:kup" render={(rprops) => <DashboardPage auth={this.state.logged.kup} {...rprops} />} />
