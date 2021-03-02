@@ -12,7 +12,7 @@ export class DashForm extends Component {
         this.state = {
             kb_id: this.props.kup_id,
             itemsToDel: [],
-            announcementsToDel: [],
+            annsToDel: [],
             hoursToDel: [],
             next_ann: 0,
             next_item: 0,
@@ -38,6 +38,7 @@ export class DashForm extends Component {
     }
 
     handleChange = (event, index) => {
+        let fromDB;
         let el = event.target;
         let val = el.value;
         let newStateProp = false;
@@ -46,7 +47,13 @@ export class DashForm extends Component {
         elName = elName[0];
         switch (elName) {
             case "fa fa-close delcomm":
+                fromDB = this.state.announcements[index]._id;
                 newStateProp = this.state.announcements.splice(index, 1);
+                if (fromDB) {
+                    let delList = [...this.state.annsToDel]
+                    delList.push(fromDB);
+                    newStateProp = { announcements: this.state.announcements, annsToDel: delList }
+                }
                 break;
             case "commentTitle":
                 newStateProp = this.state.announcements;
@@ -69,7 +76,7 @@ export class DashForm extends Component {
                 newStateProp[index].act = el.checked;
                 break;
             case "fa fa-close delete":
-                let fromDB = this.state.items[index]._id;
+                fromDB = this.state.items[index]._id;
                 newStateProp = this.state.items.splice(index, 1);
                 if (fromDB) {
                     let delList = [...this.state.itemsToDel]
@@ -151,7 +158,7 @@ export class DashForm extends Component {
         add.push(
             {
                 _id: undefined,
-                comID: this.state.kb_id + "_" + this.state.next_ann,
+                // comID: this.state.kb_id + "_" + this.state.next_ann,
                 inKB: this.state.kb_id,
                 title: 'NEW',
                 text: ''
@@ -235,12 +242,10 @@ export class DashForm extends Component {
         /// Update password **done**
 
         this.props.onUpdate({
-            next_ann: 0,
-            next_item: 0,
-            next_hour: 0,
             announce: this.state.announcements,
             inventory: this.state.items,
             newPass: this.state.newPass,
+            itemsToDel: this.state.itemsToDel,
             kupData: {
                 img: this.state.img,
                 alt: this.state.alt,

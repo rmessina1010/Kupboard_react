@@ -48,6 +48,8 @@ class DashboardPage extends Component {
                             announce: kupboard.theKup.bulletins,
                             inventory: kupboard.theKup.inventory,
                         };
+
+
                     this.setState(newState);
                 })
                 .catch(err => {
@@ -84,16 +86,20 @@ class DashboardPage extends Component {
 
     updateFooter = (newState) => {  /// called onSubmit in form!!!
 
-        // alert(JSON.stringify(newState.inventory));
+        // alert(JSON.stringify(newState.itemsToDel));
         // return;
 
         let updateKBinDB = { ...newState.kupData }
         if (!updateKBinDB.img) { delete updateKBinDB.img }
         if (!updateKBinDB.mast) { delete updateKBinDB.mast }
-        //delete updateKBinDB.userPassword;
+
         serverOps.dashRequest('', 'PUT', { updateKup: updateKBinDB })
             .then(() => {
                 serverOps.dashRequest('items', 'PUT', { updateRows: newState.inventory })
+                    .catch(err => console.log(err));
+            })
+            .then(() => {
+                serverOps.dashRequest('items', 'DELETE', { deleteTargets: newState.itemsToDel })
                     .catch(err => console.log(err));
             })
             .then(() => {
