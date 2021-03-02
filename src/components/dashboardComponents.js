@@ -11,8 +11,12 @@ export class DashForm extends Component {
         super(props);
         this.state = {
             kb_id: this.props.kup_id,
-            // next_ann: this.props.next_ann,
-            // next_item: this.props.next_item,
+            itemsToDel: [],
+            announcementsToDel: [],
+            hoursToDel: [],
+            next_ann: 0,
+            next_item: 0,
+            next_hour: 0,
             announcements: this.props.comments,
             items: this.props.items,
             submit: null,
@@ -62,10 +66,16 @@ export class DashForm extends Component {
                 break;
             case "active":
                 newStateProp = this.state.items;
-                newStateProp[index].active = el.checked;
+                newStateProp[index].act = el.checked;
                 break;
             case "fa fa-close delete":
+                let fromDB = this.state.items[index]._id;
                 newStateProp = this.state.items.splice(index, 1);
+                if (fromDB) {
+                    let delList = [...this.state.itemsToDel]
+                    delList.push(fromDB);
+                    newStateProp = { items: this.state.items, itemsToDel: delList }
+                }
                 break;
             case "fa fa-close delday":
                 newStateProp = this.state.hours.splice(index, 1);
@@ -140,6 +150,7 @@ export class DashForm extends Component {
         let add = this.state.announcements.slice();
         add.push(
             {
+                _id: undefined,
                 comID: this.state.kb_id + "_" + this.state.next_ann,
                 inKB: this.state.kb_id,
                 title: 'NEW',
@@ -171,11 +182,12 @@ export class DashForm extends Component {
         let add = this.state.items.slice();
         add.unshift(
             {
-                itemID: this.state.kb_id + "_" + this.state.next_ann,
+                _id: undefined,
+                //itemID: this.state.next_item,
                 inKB: this.state.kb_id,
                 name: 'NEW item ',
                 req: false,
-                active: true,
+                act: true,
                 qty: 1
             }
         )
@@ -211,6 +223,7 @@ export class DashForm extends Component {
             return;
         }
 
+
         //let message = "Your Kupboard account has been updated.\n" + JSON.stringify(this.state);
         this.submitAction = false;
 
@@ -222,8 +235,9 @@ export class DashForm extends Component {
         /// Update password **done**
 
         this.props.onUpdate({
-            // next_ann: this.state.next_ann,
-            // next_item: this.state.next_item,
+            next_ann: 0,
+            next_item: 0,
+            next_hour: 0,
             announce: this.state.announcements,
             inventory: this.state.items,
             newPass: this.state.newPass,
@@ -443,7 +457,8 @@ export function DaySchedule(props) {
 }
 
 
-export function InventoryItemDash({ req, active, qty, name, id, change, index }) {
+export function InventoryItemDash({ req, act, qty, name, _id, change, index }) {
+    let id = _id;
     return (
 
         <InputGroup tag="li" className="mb-2 no-gutters" key={id}>
@@ -454,7 +469,7 @@ export function InventoryItemDash({ req, active, qty, name, id, change, index })
                     <input name={"request[" + id + "]"} id={"request" + id} type="checkbox" checked={req ? true : false} onClick={event => change(event, index)} />
                 </InputGroupText>
                 <InputGroupText tag="label">
-                    <input name={"active[" + id + "]"} id={"active" + id} type="checkbox" checked={active ? true : false} onClick={event => change(event, index)} />
+                    <input name={"active[" + id + "]"} id={"active" + id} type="checkbox" checked={act ? true : false} onClick={event => change(event, index)} />
                 </InputGroupText>
                 <InputGroupText tag="label" className="text-secondary">
                     <i className="fa fa-close delete" onClick={event => change(event, index)}></i>

@@ -17,13 +17,13 @@ export function DaySelect({ name, id, classes, required, value, passRef, change,
     return (
         <Input type="select" name={name} id={id} className={selClass} required={required} value={value} innerRef={passRef} onChange={(event) => change(event, index)}>
             <option value="">Day:</option>
-            <option value="Mon.">Mon</option>
-            <option value="Tue.">Tue</option>
-            <option value="Wed.">Wed</option>
-            <option value="Thrs.">Thrs</option>
-            <option value="Fri.">Fri</option>
-            <option value="Sat.">Sat</option>
-            <option value="Sun.">Sun</option>
+            <option value="Monday">Mon</option>
+            <option value="Tuesday">Tue</option>
+            <option value="Wednesday">Wed</option>
+            <option value="Thursday">Thrs</option>
+            <option value="Friday">Fri</option>
+            <option value="Saturday">Sat</option>
+            <option value="Sunday">Sun</option>
         </Input>
     );
 }
