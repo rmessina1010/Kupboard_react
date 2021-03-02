@@ -77,11 +77,12 @@ export class DashForm extends Component {
                 break;
             case "fa fa-close delete":
                 fromDB = this.state.items[index]._id;
-                newStateProp = this.state.items.splice(index, 1);
+                newStateProp = { items: [... this.state.items] }
+                newStateProp.items.splice(index, 1);
                 if (fromDB) {
                     let delList = [...this.state.itemsToDel]
                     delList.push(fromDB);
-                    newStateProp = { items: this.state.items, itemsToDel: delList }
+                    newStateProp.itemsToDel = delList;
                 }
                 break;
             case "fa fa-close delday":
@@ -236,9 +237,9 @@ export class DashForm extends Component {
 
         /// Upload Pics
         /// Update KupData **done**
-        /// Update Items
+        /// Update Items **done**
         /// Update hours
-        /// Update bulletin
+        /// Update bulletin **done**
         /// Update password **done**
 
         this.props.onUpdate({
@@ -246,6 +247,7 @@ export class DashForm extends Component {
             inventory: this.state.items,
             newPass: this.state.newPass,
             itemsToDel: this.state.itemsToDel,
+            annsToDel: this.state.annsToDel,
             kupData: {
                 img: this.state.img,
                 alt: this.state.alt,

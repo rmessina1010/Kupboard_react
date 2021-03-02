@@ -103,11 +103,22 @@ class DashboardPage extends Component {
                     .catch(err => console.log(err));
             })
             .then(() => {
+                serverOps.dashRequest('announce', 'PUT', { updateRows: newState.announce })
+                    .catch(err => console.log(err));
+            })
+            .then(() => {
+                serverOps.dashRequest('announce', 'DELETE', { deleteTargets: newState.annsToDel })
+                    .catch(err => console.log(err));
+            })
+            .then(() => {
                 if (newState.newPass) {
                     serverOps.dashRequest('password', 'PUT', { newpass: newState.newPass, kup: newState.kupData.name })
                         .catch(err => console.log(err));
                 }
                 //alert(JSON.stringify(kup));
+                delete newState.itemsToDel;
+                delete newState.annsToDel;
+                delete newState.hoursToDel;
                 this.setState(newState)
             })
             .catch(err => {
