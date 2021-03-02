@@ -95,6 +95,16 @@ class DashboardPage extends Component {
 
         serverOps.dashRequest('', 'PUT', { updateKup: updateKBinDB })
             .then(() => {
+                serverOps.dashRequest('hours', 'PUT', { updateRows: updateKBinDB.hours })
+                    .catch(err => console.log(err));
+            })
+            .then(() => {
+                if (newState.hoursToDel.length) {
+                    serverOps.dashRequest('hours', 'DELETE', { deleteTargets: newState.hoursToDel })
+                        .catch(err => console.log(err));
+                }
+            })
+            .then(() => {
                 serverOps.dashRequest('items', 'PUT', { updateRows: newState.inventory })
                     .catch(err => console.log(err));
             })

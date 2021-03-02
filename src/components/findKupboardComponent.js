@@ -159,8 +159,8 @@ export function ListSchedule({ hours }) {
                 hours ? hours.map(hour => {
                     return hour.day ?
                         (<li className="schedule">
-                            <strong>{hour.day + (hour.toDay ? " - " + hour.toDay : "")}:</strong>
-                            <span>{hour.open} - {hour.close}</span>
+                            <strong>{hour.day + (hour.toDay ? " - " + hour.toDay : "")}:&nbsp;</strong>
+                            <span> {hour.open} - {hour.close}</span>
                         </li>)
                         : null;
                 })

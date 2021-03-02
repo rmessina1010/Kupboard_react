@@ -86,7 +86,14 @@ export class DashForm extends Component {
                 }
                 break;
             case "fa fa-close delday":
-                newStateProp = this.state.hours.splice(index, 1);
+                fromDB = this.state.hours[index]._id;
+                newStateProp = { hours: [... this.state.hours] }
+                newStateProp.hours.splice(index, 1);
+                if (fromDB) {
+                    let delList = [...this.state.hoursToDel]
+                    delList.push(fromDB);
+                    newStateProp.hoursToDel = delList;
+                }
                 break;
             case "request":
                 newStateProp = this.state.items;
@@ -207,7 +214,7 @@ export class DashForm extends Component {
 
     addDay = () => {
         let add = this.state.hours.slice();
-        add.push({ day: null, toDay: null, open: null, close: null });
+        add.push({ _id: undefined, day: null, toDay: null, open: null, close: null });
         this.setState({ hours: add });
     }
 
@@ -248,6 +255,7 @@ export class DashForm extends Component {
             newPass: this.state.newPass,
             itemsToDel: this.state.itemsToDel,
             annsToDel: this.state.annsToDel,
+            hoursToDel: this.state.hoursToDel,
             kupData: {
                 img: this.state.img,
                 alt: this.state.alt,
@@ -419,7 +427,8 @@ export class DashForm extends Component {
 
 
 
-export function CommentItem({ text, title, change, index, com_ID }) {
+export function CommentItem({ text, title, change, index, _id }) {
+    let com_ID = _id;
     return (
         <li className="comment-text p-2" key={com_ID}>
             <div className="form-group mb-0">
@@ -435,7 +444,7 @@ export function CommentItem({ text, title, change, index, com_ID }) {
 
 export function DaySchedule(props) {
     return (
-        <Row className="kup-hour" key={props.index}>
+        <Row className="kup-hour" key={props._id}>
             <Col xs="12" sm="6" md="12" lg="6" className="mb-1 pr-lg-3 pr-md-0 pr-sm-3 pt-1">
                 <InputGroup>
                     <div className="input-group-prepend">
@@ -458,7 +467,7 @@ export function DaySchedule(props) {
                     <Input type="text" name="timeTo[]" id="timeTo" placeholder="6:00pm" value={props.close} onChange={event => props.change(event, props.index)} />
                 </InputGroup>
             </Col>
-            <i className="fa fa-close delday" onClick={(event, index) => props.change(event, index)}></i>
+            <i className="fa fa-close delday" onClick={event => props.change(event, props.index)}></i>
         </Row>
     );
 }
