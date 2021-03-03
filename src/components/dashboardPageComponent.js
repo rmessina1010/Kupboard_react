@@ -85,7 +85,7 @@ class DashboardPage extends Component {
 
 
     updateFooter = (newState) => {  /// called onSubmit in form!!!
-        alert(JSON.stringify(newState.announce));
+        //alert(JSON.stringify(newState.announce));
 
         let imgFile = document.getElementById('thumbIMG').files[0];
         let mastFile = document.getElementById('headerIMG').files[0];
@@ -104,6 +104,10 @@ class DashboardPage extends Component {
                 }
             })
             .then(() => {
+                serverOps.dashRequest('announce', 'PUT', { updateRows: newState.announce })
+                    .catch(err => console.log(err));
+            })
+            .then(() => {
                 serverOps.dashRequest('items', 'PUT', { updateRows: newState.inventory })
                     .catch(err => console.log(err));
             })
@@ -112,10 +116,6 @@ class DashboardPage extends Component {
                     serverOps.dashRequest('items', 'DELETE', { deleteTargets: newState.itemsToDel })
                         .catch(err => console.log(err));
                 }
-            })
-            .then(() => {
-                serverOps.dashRequest('announce', 'PUT', { updateRows: newState.announce })
-                    .catch(err => console.log(err));
             })
             .then(() => {
                 if (newState.annsToDel.length) {
@@ -161,6 +161,7 @@ class DashboardPage extends Component {
                         kup_id={this.state.kup}
                         onUpdate={this.updateFooter}
                         logoutFoo={this.props.logoutFoo}
+                        refresh={this.props.refresh}
                     />
                 </MainWrap>
                 <Prefoot map={this.state.kupData} heading={this.state.kup && this.state.kupData.map ? null : "Map not available."} xl="6" />

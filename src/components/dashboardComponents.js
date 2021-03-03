@@ -168,6 +168,7 @@ export class DashForm extends Component {
                 _id: undefined,
                 // comID: this.state.kb_id + "_" + this.state.next_ann,
                 inKB: this.state.kb_id,
+                pubbed: true,
                 title: 'NEW',
                 text: ''
             }
@@ -207,7 +208,7 @@ export class DashForm extends Component {
             }
         )
         this.setState({
-            next_ann: this.state.next_item + 1,
+            next_item: this.state.next_item + 1,
             items: add
         });
     }
@@ -279,10 +280,15 @@ export class DashForm extends Component {
         let imgFile = document.getElementById('thumbIMG').files[0];
         let mastFile = document.getElementById('headerIMG').files[0];
         if (imgFile || mastFile) {
-            let newState = {}
-            if (imgFile) { newState.img = '/images/' + this.state._id + '/thumbs/' + imgFile.name; }
-            if (mastFile) { newState.mast = '/images/' + this.state._id + '/mast/' + mastFile.name; }
-            this.setState(newState);
+            if (mastFile) {
+                window.location.reload();
+                return;
+            }
+            if (imgFile) {
+                let newState = { img: '/images/' + this.state._id + '/thumbs/' + imgFile.name };
+                document.getElementById('dashForm').reset();
+                this.setState(newState);
+            }
         }
     }
 
@@ -290,7 +296,7 @@ export class DashForm extends Component {
         const errors = this.validator.errors;
 
         return (
-            <Form className="py-3" onSubmit={event => this.handleSubmit(event)} method="POST" enctype="multipart/form-data">
+            <Form id="dashForm" className="py-3" onSubmit={event => this.handleSubmit(event)} method="POST" enctype="multipart/form-data">
 
                 <Row>
                     <Col sm="12" md="6">
