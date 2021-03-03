@@ -77,7 +77,7 @@ export class UserJumbo extends Component {
         let share = kup.share ? { txt: btnText, url: kup.share, attrs: { target: '_blank' } } : null;
 
         return (
-            <BrandJumbo {...props} imageSet={{ src: kup.mast, alt: kup.mastAlt, bp: 0 }} title={kup.name} text={detailText} button={share} />
+            <BrandJumbo {...props} imageSet={{ src: serverOps.SERVER_LOC + kup.mast, alt: kup.mastAlt, bp: 0 }} title={kup.name} text={detailText} button={share} />
         );
     }
 }

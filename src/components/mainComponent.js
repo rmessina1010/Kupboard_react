@@ -56,6 +56,10 @@ class Main extends Component {
         window.location = "/login/";
     }
 
+    mastRefresh(img) {
+
+    }
+
     render() {
         return (
             <div>

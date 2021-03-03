@@ -85,15 +85,44 @@ class DashboardPage extends Component {
 
 
     updateFooter = (newState) => {  /// called onSubmit in form!!!
+        alert(JSON.stringify(newState.announce));
 
-        // alert(JSON.stringify(newState.itemsToDel));
-        // return;
-
+        let imgFile = document.getElementById('thumbIMG').files[0];
+        let mastFile = document.getElementById('headerIMG').files[0];
         let updateKBinDB = { ...newState.kupData }
-        if (!updateKBinDB.img) { delete updateKBinDB.img }
-        if (!updateKBinDB.mast) { delete updateKBinDB.mast }
-
         serverOps.dashRequest('', 'PUT', { updateKup: updateKBinDB })
+            .then(() => {
+                if (imgFile) {
+                    serverOps.uploadRequest('thumb', imgFile)
+                        .catch(err => err);
+                }
+            })
+            .then(() => {
+                if (mastFile) {
+                    serverOps.uploadRequest('mast', mastFile)
+                        .catch(err => err);
+                }
+            })
+            .then(() => {
+                serverOps.dashRequest('items', 'PUT', { updateRows: newState.inventory })
+                    .catch(err => console.log(err));
+            })
+            .then(() => {
+                if (newState.itemsToDel.length) {
+                    serverOps.dashRequest('items', 'DELETE', { deleteTargets: newState.itemsToDel })
+                        .catch(err => console.log(err));
+                }
+            })
+            .then(() => {
+                serverOps.dashRequest('announce', 'PUT', { updateRows: newState.announce })
+                    .catch(err => console.log(err));
+            })
+            .then(() => {
+                if (newState.annsToDel.length) {
+                    serverOps.dashRequest('announce', 'DELETE', { deleteTargets: newState.annsToDel })
+                        .catch(err => console.log(err));
+                }
+            })
             .then(() => {
                 serverOps.dashRequest('hours', 'PUT', { updateRows: updateKBinDB.hours })
                     .catch(err => console.log(err));
@@ -103,40 +132,22 @@ class DashboardPage extends Component {
                     serverOps.dashRequest('hours', 'DELETE', { deleteTargets: newState.hoursToDel })
                         .catch(err => console.log(err));
                 }
-            })
-            .then(() => {
-                serverOps.dashRequest('items', 'PUT', { updateRows: newState.inventory })
-                    .catch(err => console.log(err));
-            })
-            .then(() => {
-                serverOps.dashRequest('items', 'DELETE', { deleteTargets: newState.itemsToDel })
-                    .catch(err => console.log(err));
-            })
-            .then(() => {
-                serverOps.dashRequest('announce', 'PUT', { updateRows: newState.announce })
-                    .catch(err => console.log(err));
-            })
-            .then(() => {
-                serverOps.dashRequest('announce', 'DELETE', { deleteTargets: newState.annsToDel })
-                    .catch(err => console.log(err));
-            })
-            .then(() => {
+            }).then(() => {
                 if (newState.newPass) {
                     serverOps.dashRequest('password', 'PUT', { newpass: newState.newPass, kup: newState.kupData.name })
                         .catch(err => console.log(err));
                 }
-                //alert(JSON.stringify(kup));
+            })
+            .then(() => {
                 delete newState.itemsToDel;
                 delete newState.annsToDel;
                 delete newState.hoursToDel;
+                alert('Kupboard Updated!');
                 this.setState(newState)
             })
             .catch(err => {
                 console.log(err);
-                // alert(JSON.stringify("!!!"));
             });
-
-
     }
 
     render() {

@@ -1,4 +1,4 @@
-const SERVER_LOC = 'https://localhost:3443';
+export const SERVER_LOC = 'https://localhost:3443';
 
 
 const getTokenFromCookie = () => (document.cookie.match(/^(?:.*;)?\s*token\s*=\s*([^;]+)(?:.*)?$/) || [null, null])[1];
@@ -21,6 +21,8 @@ export const objToBodyQuery = (obj) => { return 'bod=' + encodeURI(JSON.stringif
 
 export const handleRequest = (url, token = null, method = 'GET', body = null, hParams = {}, stringy = true) => {
     let headers = { 'Content-Type': 'application/json', ...hParams };
+    if (!headers['Content-Type']) { delete headers['Content-Type']; }
+
     if (token) { headers.Authorization = 'Bearer ' + token; }
     if (method === 'GET' && body) {
         url += (encodeURI(url).indexOf('?') === -1 ? '?' : '&') + objToBodyQuery(body);
@@ -31,7 +33,7 @@ export const handleRequest = (url, token = null, method = 'GET', body = null, hP
     return fetch(url, { method, headers, body })
         .then(res => {
             if (res.status >= 200 && res.status < 300) { return res.json(); }
-            return { err: { serv: res.status, method: method } }
+            return { err: { serv: res.status, method: method, headers } }
         })
         .catch(err => ({ err: { fetchINx: err, method, headers, body, url } }));
 }
@@ -74,17 +76,18 @@ export const dashRequest = (seg, method = 'GET', payload = null) => {
         .catch(err => ({ err: { fetch: err } }))
 }
 
-export const uploadRequest = (imgRole, kupId, imgData) => {
-    let sessionToken;
+export const uploadRequest = (imgRole, imgData) => {
+    let formdata = new FormData();
+    formdata.append('imageFile', imgData);
 
     return handleRequest(
-        SERVER_LOC + '/uploads/' + imgRole + '/' + kupId,
-        sessionToken,
+        SERVER_LOC + '/uploads/' + imgRole + '/' + getKupIdFromCookie(),
+        getTokenFromCookie(),
         'POST',
-        { imageFile: imgData },
-        { ['Content-Type']: 'multipart/form-data;' }
+        formdata,
+        { ['Content-Type']: null },
+        false
     )
         .catch(err => ({ err: { fetch: err } }))
 }
-
 

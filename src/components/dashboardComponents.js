@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Row, FormGroup, Label, Input, Button, Form, InputGroupAddon, InputGroupText, FormFeedback } from 'reactstrap';
+import { Col, Row, FormGroup, Label, Input, Button, Form, InputGroupAddon, InputGroupText, FormFeedback, CustomInput } from 'reactstrap';
 import InputGroup from 'reactstrap/lib/InputGroup';
 import { DaySelect, StateSelect } from './selectOptsComponent'
 import validator from '../shared/validation'
@@ -77,7 +77,7 @@ export class DashForm extends Component {
                 break;
             case "fa fa-close delete":
                 fromDB = this.state.items[index]._id;
-                newStateProp = { items: [... this.state.items] }
+                newStateProp = { items: [...this.state.items] }
                 newStateProp.items.splice(index, 1);
                 if (fromDB) {
                     let delList = [...this.state.itemsToDel]
@@ -87,7 +87,7 @@ export class DashForm extends Component {
                 break;
             case "fa fa-close delday":
                 fromDB = this.state.hours[index]._id;
-                newStateProp = { hours: [... this.state.hours] }
+                newStateProp = { hours: [...this.state.hours] }
                 newStateProp.hours.splice(index, 1);
                 if (fromDB) {
                     let delList = [...this.state.hoursToDel]
@@ -232,7 +232,7 @@ export class DashForm extends Component {
         }
 
         let isInvalid;
-        if (isInvalid = this.validator.isInvalid(this.state)) {
+        if (isInvalid === this.validator.isInvalid(this.state)) {
             this.forceUpdate();
             alert("Invalid Form fields!!" + isInvalid);
             return;
@@ -242,20 +242,17 @@ export class DashForm extends Component {
         //let message = "Your Kupboard account has been updated.\n" + JSON.stringify(this.state);
         this.submitAction = false;
 
-        /// Upload Pics
-        /// Update KupData **done**
-        /// Update Items **done**
-        /// Update hours
-        /// Update bulletin **done**
-        /// Update password **done**
 
         this.props.onUpdate({
             announce: this.state.announcements,
             inventory: this.state.items,
+
             newPass: this.state.newPass,
+
             itemsToDel: this.state.itemsToDel,
             annsToDel: this.state.annsToDel,
             hoursToDel: this.state.hoursToDel,
+
             kupData: {
                 img: this.state.img,
                 alt: this.state.alt,
@@ -278,13 +275,22 @@ export class DashForm extends Component {
                 // id: this.state.id
             }
         });
+
+        let imgFile = document.getElementById('thumbIMG').files[0];
+        let mastFile = document.getElementById('headerIMG').files[0];
+        if (imgFile || mastFile) {
+            let newState = {}
+            if (imgFile) { newState.img = '/images/' + this.state._id + '/thumbs/' + imgFile.name; }
+            if (mastFile) { newState.mast = '/images/' + this.state._id + '/mast/' + mastFile.name; }
+            this.setState(newState);
+        }
     }
 
     render() {
         const errors = this.validator.errors;
 
         return (
-            <Form className="py-3" onSubmit={event => this.handleSubmit(event)}>
+            <Form className="py-3" onSubmit={event => this.handleSubmit(event)} method="POST" enctype="multipart/form-data">
 
                 <Row>
                     <Col sm="12" md="6">
@@ -312,25 +318,13 @@ export class DashForm extends Component {
                         <h5 className="dash-header">Images</h5>
                         <Row>
                             <Col xs="12" sm="4" md="6" className="align-items-center d-flex">
-                                <img src={this.state.img} alt={this.state.alt} className="img-thumbnail mx-auto d-block" />
+                                <img src={serverOps.SERVER_LOC + this.state.img} alt={this.state.alt} className="img-thumbnail mx-auto d-block" />
                             </Col>
                             <Col xs="12" sm="8" md="6">
                                 <Label className="d-block">Header Image</Label>
-                                <div className="input-group mb-3 m-0">
-                                    <div className="custom-file">
-                                        <input type="file" className="custom-file-input" id="headerIMG"
-                                            aria-describedby="headerIMG" />
-                                        <label className="custom-file-label" for="headerIMG">Choose file</label>
-                                    </div>
-                                </div>
+                                <CustomInput type="file" id="headerIMG" name="mast" className="input-group mb-3 m-0" />
                                 <Label className="d-block">Thumbnail Image</Label>
-                                <div className="input-group mb-3 m-0">
-                                    <div className="custom-file">
-                                        <input type="file" className="custom-file-input" id="thumbIMG"
-                                            aria-describedby="thumbIMG" />
-                                        <label className="custom-file-label" for="thumbIMG">Choose file</label>
-                                    </div>
-                                </div>
+                                <CustomInput type="file" id="thumbIMG" name="img" className="input-group mb-3 m-0" />
                             </Col>
                         </Row>
                         <h5 className="dash-header">Hours</h5>

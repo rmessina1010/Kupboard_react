@@ -132,7 +132,7 @@ export function KBListItem({ img, alt, name, address, city, state, zip, itemType
             <a href={"/view/" + id} className="container">
                 <Row tag="dl">
                     <Col tag="dt" xs="12" md="3" lg="3">
-                        <img className="d-block img-thumbnail mb-3 mx-auto mx-md-0" src={img} alt={alt} />
+                        <img className="d-block img-thumbnail mb-3 mx-auto mx-md-0" src={serverOps.SERVER_LOC + img} alt={alt} />
                     </Col>
                     <Col tag="dt" xs="12" sm="6" md="5" lg="3" className="text-center text-sm-left">
                         <h5 className="h4 font-weight-light">{name}</h5>
