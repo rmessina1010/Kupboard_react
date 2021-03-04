@@ -252,7 +252,7 @@ export class SignUpForm extends Component {
     handleSubmit(event) {
         event.preventDefault();
         let isInvalid;
-        if (isInvalid = this.validator.isInvalid(this.state)) {
+        if (isInvalid === this.validator.isInvalid(this.state)) {
             this.forceUpdate();
             alert("Invalid Form fields!!" + isInvalid);
             return;
@@ -265,7 +265,6 @@ export class SignUpForm extends Component {
                             // alert("Creating Account for:\n" + JSON.stringify(this.state));
                             serverOps.loginRequest(this.state.kupboadName, this.state.password)
                                 .then(loggedUser => {
-                                    alert(JSON.stringify(this.props.loginFoo))
                                     //this.props.setMessage(loggedUser.success ? <small className="d-block text-success font-weight-normal">Welcome. You are now logged in.</small> : <small className="font-weight-normal d-block text-danger">Login failed!!</small>);
                                     if (loggedUser.success && typeof this.props.loginFoo === 'function') { this.props.loginFoo(loggedUser); }
                                 })

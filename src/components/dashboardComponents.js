@@ -242,9 +242,40 @@ export class DashForm extends Component {
 
         //let message = "Your Kupboard account has been updated.\n" + JSON.stringify(this.state);
         this.submitAction = false;
+        this.coordinate()
+            .then(newState => {
+                // let imgFile = document.getElementById('thumbIMG').files[0];
+                let mastFile = document.getElementById('headerIMG').files[0];
+                if (mastFile) {
+                    // if (mastFile) {
+                    window.location.reload();
+                    return;
+                    // }
+                    // if (imgFile) {
+                    //     let newState = { img: '/images/' + this.state._id + '/thumbs/' + imgFile.name };
+                    //     document.getElementById('dashForm').reset();
+                    //     this.setState(newState);
+                    // }
+                }
+                this.setState({
+                    itemsToDel: [],
+                    annsToDel: [],
+                    hoursToDel: [],
+                    next_ann: 0,
+                    next_item: 0,
+                    next_hour: 0,
+                    announcements: newState.announce,
+                    items: newState.inventory,
+                    submit: null,
+                    ...newState.kupData
+                });
 
+            });
 
-        this.props.onUpdate({
+    }
+
+    async coordinate() {
+        let newState = await this.props.onUpdate({
             announce: this.state.announcements,
             inventory: this.state.items,
 
@@ -276,20 +307,7 @@ export class DashForm extends Component {
                 // id: this.state.id
             }
         });
-
-        let imgFile = document.getElementById('thumbIMG').files[0];
-        let mastFile = document.getElementById('headerIMG').files[0];
-        if (imgFile || mastFile) {
-            if (mastFile) {
-                window.location.reload();
-                return;
-            }
-            if (imgFile) {
-                let newState = { img: '/images/' + this.state._id + '/thumbs/' + imgFile.name };
-                document.getElementById('dashForm').reset();
-                this.setState(newState);
-            }
-        }
+        return newState;
     }
 
     render() {

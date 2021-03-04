@@ -84,22 +84,24 @@ class DashboardPage extends Component {
     }
 
 
-    updateFooter = (newState) => {  /// called onSubmit in form!!!
+    updateFooter = async (newState) => {  /// called onSubmit in form!!!
         //alert(JSON.stringify(newState.announce));
 
         let imgFile = document.getElementById('thumbIMG').files[0];
         let mastFile = document.getElementById('headerIMG').files[0];
         let updateKBinDB = { ...newState.kupData }
-        serverOps.dashRequest('', 'PUT', { updateKup: updateKBinDB })
-            .then(() => {
+        let newerState = await serverOps.dashRequest('', 'PUT', { updateKup: updateKBinDB })
+            .then(async () => {
                 if (imgFile) {
-                    serverOps.uploadRequest('thumb', imgFile)
+                    newState.kupData.img = await serverOps.uploadRequest('thumb', imgFile)
+                        .then(upload => upload.path.replace('public', ''))
                         .catch(err => err);
                 }
             })
-            .then(() => {
+            .then(async () => {
                 if (mastFile) {
-                    serverOps.uploadRequest('mast', mastFile)
+                    newState.kupData.mast = await serverOps.uploadRequest('mast', mastFile)
+                        .then(upload => upload.path.replace('public', ''))
                         .catch(err => err);
                 }
             })
@@ -139,15 +141,17 @@ class DashboardPage extends Component {
                 }
             })
             .then(() => {
-                delete newState.itemsToDel;
-                delete newState.annsToDel;
-                delete newState.hoursToDel;
+                newState.itemsToDel = [];
+                newState.annsToDel = [];
+                newState.hoursToDel = [];
                 alert('Kupboard Updated!');
-                this.setState(newState)
+                //this.setState(newState);
+                return newState;
             })
             .catch(err => {
                 console.log(err);
             });
+        return newerState;
     }
 
     render() {
@@ -161,7 +165,6 @@ class DashboardPage extends Component {
                         kup_id={this.state.kup}
                         onUpdate={this.updateFooter}
                         logoutFoo={this.props.logoutFoo}
-                        refresh={this.props.refresh}
                     />
                 </MainWrap>
                 <Prefoot map={this.state.kupData} heading={this.state.kup && this.state.kupData.map ? null : "Map not available."} xl="6" />
