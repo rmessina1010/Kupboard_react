@@ -251,8 +251,8 @@ export class SignUpForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        let isInvalid;
-        if (isInvalid === this.validator.isInvalid(this.state)) {
+        let isInvalid = this.validator.isInvalid(this.state)
+        if (isInvalid) {
             this.forceUpdate();
             alert("Invalid Form fields!!" + isInvalid);
             return;

@@ -27,12 +27,12 @@ export function BrandJumbo(props) {
     );
 }
 
-export class UserJumbo extends Component {
+export class ViewJumbo extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            kupData: false
+            kupData: false,
         }
     }
 
@@ -54,12 +54,8 @@ export class UserJumbo extends Component {
         let props = this.props;
         let kup = this.state.kupData;
         let errMess = "That Kupboard doesn't exist";
-        if (props.match.path === "/dash/:kup" && props.auth !== props.match.params.kup) {
-            kup = false;
-            errMess = "Improper Kupboard access."
-        }
         kup = kup ? kup : {
-            mast: "/assets/1140x440.png",
+            mast: "/assets/_default_mast.jpg",
             mastAlt: "missing Kupboard",
             name: "Oops!",
             details: errMess,
@@ -68,12 +64,58 @@ export class UserJumbo extends Component {
         };
         let btnText = "Share Page";
         let detailText = kup.details;
-        if (kup && !kup.missing && props.match.path.indexOf('/dash/') > -1) {
-            kup.share = '/view/' + props.match.params.kup;
-            btnText = "View Kupboard";
-            detailText = "Edit your Kupboard here.";
-        }
+        let share = kup.share ? { txt: btnText, url: kup.share, attrs: { target: '_blank' } } : null;
 
+        return (
+            <BrandJumbo {...props} imageSet={{ src: serverOps.SERVER_LOC + kup.mast, alt: kup.mastAlt, bp: 0 }} title={kup.name} text={detailText} button={share} />
+        );
+    }
+}
+
+export class DashJumbo extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            kupData: false,
+            refresh: this.props.refresh
+        }
+    }
+
+    updateHeader = () => {
+        serverOps.dashRequest('', 'GET')
+            .then(kupboard => {
+                if (!kupboard.theKup) { kupboard = false; }
+                this.setState({ kupData: kupboard.theKup, refresh: this.props.refresh })
+            })
+            .catch(err => {
+                this.setState({ kupData: false, refresh: this.props.refresh });
+                console.log(err)
+            });
+    }
+    componentDidMount() { this.updateHeader(); }
+
+
+    render() {
+        if (this.props.refresh !== this.state.refresh) { this.updateHeader(); }
+        let props = this.props;
+        let kup = this.state.kupData;
+        let errMess = "That Kupboard doesn't exist";
+        if (props.match.path === "/dash/:kup" && props.auth !== props.match.params.kup) {
+            kup = false;
+            errMess = "Improper Kupboard access."
+        }
+        let detailText = kup ? "Edit your Kupboard here." : "Access Denied!";
+        kup = kup ? kup : {
+            mast: "/assets/_default_mast.jpg",
+            mastAlt: "missing Kupboard",
+            name: "Oops!",
+            details: errMess,
+            share: null,
+            missing: true
+        };
+        let btnText = "View Kupboard";
+        if (kup && !kup.missing) { kup.share = '/view/' + props.match.params.kup; }
         let share = kup.share ? { txt: btnText, url: kup.share, attrs: { target: '_blank' } } : null;
 
         return (

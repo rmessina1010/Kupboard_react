@@ -232,8 +232,8 @@ export class DashForm extends Component {
             return;
         }
 
-        let isInvalid;
-        if (isInvalid === this.validator.isInvalid(this.state)) {
+        let isInvalid = this.validator.isInvalid(this.state);
+        if (isInvalid) {
             this.forceUpdate();
             alert("Invalid Form fields!!" + isInvalid);
             return;
@@ -244,19 +244,8 @@ export class DashForm extends Component {
         this.submitAction = false;
         this.coordinate()
             .then(newState => {
-                // let imgFile = document.getElementById('thumbIMG').files[0];
                 let mastFile = document.getElementById('headerIMG').files[0];
-                if (mastFile) {
-                    // if (mastFile) {
-                    window.location.reload();
-                    return;
-                    // }
-                    // if (imgFile) {
-                    //     let newState = { img: '/images/' + this.state._id + '/thumbs/' + imgFile.name };
-                    //     document.getElementById('dashForm').reset();
-                    //     this.setState(newState);
-                    // }
-                }
+                if (mastFile) { this.props.refreshFoo(); }
                 this.setState({
                     itemsToDel: [],
                     annsToDel: [],
@@ -269,7 +258,10 @@ export class DashForm extends Component {
                     submit: null,
                     ...newState.kupData
                 });
-
+                document.getElementById('headerIMG').value = null;
+                document.getElementById('thumbIMG').value = null;
+                document.getElementById('headerIMG').nextElementSibling.innerHTML = '';
+                document.getElementById('thumbIMG').nextElementSibling.innerHTML = '';
             });
 
     }

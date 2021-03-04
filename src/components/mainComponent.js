@@ -6,7 +6,7 @@ import { brandCarouselData, aboutBrandData } from '../shared/brandData';
 
 import Footer from './footerComponent';
 import MainNav from './mainNavComponent';
-import { BrandCarousel, BrandJumbo, UserJumbo } from './mastComponents';
+import { BrandCarousel, BrandJumbo, ViewJumbo, DashJumbo } from './mastComponents';
 
 import HomeContent from './homeComponent';
 import findKupboard from './findPageComponent';
@@ -18,12 +18,14 @@ const LOGGED_OUT = {
     url: '/login/',
     icon: 'fa fa-sign-in',
     isLogged: false,
-    kup: null
+    kup: null,
+    refresh: false
 }
 const LOGGED_IN = {
     url: '/dash/',
     icon: 'fa fa-tachometer',
-    isLogged: true
+    isLogged: true,
+    refresh: false
 }
 
 let LOGGED_STATE = (document.cookie.match(/^(?:.*;)?\s*kuplogged\s*=\s*([^;]+)(?:.*)?$/) || [null, null])[1];
@@ -56,6 +58,9 @@ class Main extends Component {
         window.location = "/login/";
     }
 
+    refreshFoo = () => {
+        this.setState({ refresh: !this.state.refresh });
+    }
 
     render() {
         return (
@@ -65,7 +70,8 @@ class Main extends Component {
                     <Switch>
                         <Route exact path={["/", "/home/", "/view/"]} render={() => <BrandCarousel items={brandCarouselData} />} />
                         <Route path="/about/" render={() => <BrandJumbo {...aboutBrandData} fadeType="bg-shadefade" />} />
-                        <Route path={["/view/:kup", "/dash/:kup"]} render={(rprops) => <UserJumbo fadeType="bg-shadefade" auth={this.state.logged.kup} {...rprops} />} />
+                        <Route path="/view/:kup" render={(rprops) => <ViewJumbo fadeType="bg-shadefade" {...rprops} />} />
+                        <Route path="/dash/:kup" render={(rprops) => <DashJumbo fadeType="bg-shadefade" auth={this.state.logged.kup} {...rprops} refresh={this.state.refresh} />} />
                     </Switch>
                 </header>
                 <Switch>
@@ -78,7 +84,7 @@ class Main extends Component {
                     <Route exact path="/signup/" render={() => (<SignUpPage loginFoo={this.loginFoo} />)} />
                     <Route path="/find/" component={findKupboard} />
                     <Route path="/view/:kup" component={ViewKBPage} />
-                    <Route path="/dash/:kup" render={(rprops) => <DashboardPage auth={this.state.logged.kup} {...rprops} logoutFoo={this.logoutFoo} />} />
+                    <Route path="/dash/:kup" render={(rprops) => <DashboardPage auth={this.state.logged.kup} {...rprops} logoutFoo={this.logoutFoo} refreshFoo={this.refreshFoo} />} />
                     <Redirect to="/home/" />
                 </Switch>
                 <Footer pages={SiteData.pages} social={SiteData.social} info={SiteData.info} />

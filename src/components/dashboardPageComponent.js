@@ -165,6 +165,7 @@ class DashboardPage extends Component {
                         kup_id={this.state.kup}
                         onUpdate={this.updateFooter}
                         logoutFoo={this.props.logoutFoo}
+                        refreshFoo={this.props.refreshFoo}
                     />
                 </MainWrap>
                 <Prefoot map={this.state.kupData} heading={this.state.kup && this.state.kupData.map ? null : "Map not available."} xl="6" />
