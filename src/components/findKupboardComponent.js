@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Col, Row, Form, FormGroup, Label, Input, Button, Container } from 'reactstrap';
 import { StateSelect } from './selectOptsComponent';
 import MainWrap from './mainWrapComponent';
+import KBPagination from './pagination';
 
 //import { kbRoster } from '../shared/KBroster';
 import * as serverOps from '../shared/serverOps';
-
 
 export class FindFormPlusList extends Component {
     constructor(props) {
@@ -14,7 +14,8 @@ export class FindFormPlusList extends Component {
             city: null,
             state: null,
             zip: null,
-            kups: []
+            kups: [],
+            of: null
         };
         this.zipRef = React.createRef();
         this.cityRef = React.createRef();
@@ -24,7 +25,8 @@ export class FindFormPlusList extends Component {
     componentDidMount() {
         serverOps.findRequest(null)
             .then(found => {
-                this.setState({ city: null, state: null, zip: null, kups: found.kupboards });
+                let of = Math.ceil(found.ofTotal / found.segmentSize);
+                this.setState({ city: null, state: null, zip: null, kups: found.kupboards, of: of });
             })
             .catch(err => console.log(err));
     }
@@ -41,8 +43,9 @@ export class FindFormPlusList extends Component {
         // alert(JSON.stringify(newLocation));
         serverOps.findRequest(search, null)
             .then(found => {
-                this.setState({ ...newLocation, kups: found.kupboards });
-                //alert(JSON.stringify(found));
+                let of = Math.ceil(found.ofTotal / found.segmentSize);
+                this.setState({ ...newLocation, kups: found.kupboards, of: of });
+                alert(JSON.stringify(found));
             })
             .catch(err => console.log(err));
     }
@@ -61,6 +64,7 @@ export class FindFormPlusList extends Component {
                     <FindForm onSub={this.updateList} zipRef={this.zipRef} cityRef={this.cityRef} stateRef={this.stateRef} />
                 </MainWrap>
                 <KBList list={this.state.kups} />
+                <KBPagination at={this.props.at} of={this.state.of} route={this.props.route} />
             </React.Fragment >
         );
     }
