@@ -14,8 +14,8 @@ const DEFAULT_DASH_STATE = {
     inventory: [],
     kupData: null
 }
-class DashboardPage extends Component {
 
+class DashboardPage extends Component {
     constructor(props) {
         super(props);
         // let announce = [];
@@ -40,16 +40,18 @@ class DashboardPage extends Component {
         if (document.cookie.indexOf('kuplogged=' + kup) > -1) {
             serverOps.dashRequest('', 'GET', null)
                 .then(kupboard => {
-                    let newState = (kupboard.err) ? DEFAULT_DASH_STATE :
-                        {
-                            kupData: kupboard.theKup,
-                            kup: kupboard.theKup._id,
-                            hours: kupboard.theKup.hours,
-                            announce: kupboard.theKup.bulletins,
-                            inventory: kupboard.theKup.inventory,
-                        };
-
-
+                    if (kupboard.err) {
+                        this.props.logoutFoo();
+                        return;
+                    }
+                    //let newState = (kupboard.err) ? DEFAULT_DASH_STATE :
+                    let newState = {
+                        kupData: kupboard.theKup,
+                        kup: kupboard.theKup._id,
+                        hours: kupboard.theKup.hours,
+                        announce: kupboard.theKup.bulletins,
+                        inventory: kupboard.theKup.inventory,
+                    };
                     this.setState(newState);
                 })
                 .catch(err => {
