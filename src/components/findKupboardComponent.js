@@ -45,7 +45,7 @@ export class FindFormPlusList extends Component {
             .then(found => {
                 let of = Math.ceil(found.ofTotal / found.segmentSize);
                 this.setState({ ...newLocation, kups: found.kupboards, of: of });
-                alert(JSON.stringify(found));
+                //alert(JSON.stringify(found));
             })
             .catch(err => console.log(err));
     }
