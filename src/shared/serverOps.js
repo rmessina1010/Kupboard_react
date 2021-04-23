@@ -1,4 +1,4 @@
-export const SERVER_LOC = 'https://localhost:3443';
+export const SERVER_LOC = process.env.REMOTE_SEREVER || 'https://localhost:3443';
 
 
 const getTokenFromCookie = () => (document.cookie.match(/^(?:.*;)?\s*token\s*=\s*([^;]+)(?:.*)?$/) || [null, null])[1];
