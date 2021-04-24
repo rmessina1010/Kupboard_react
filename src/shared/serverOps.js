@@ -1,5 +1,5 @@
-export const SERVER_LOC = process.env.REMOTE_SEREVER || 'https://localhost:3443';
-
+export const SERVER_LOC = process.env.REMOTE_SERVER || 'https://localhost:3443';
+console.log(SERVER_LOC);
 
 const getTokenFromCookie = () => (document.cookie.match(/^(?:.*;)?\s*token\s*=\s*([^;]+)(?:.*)?$/) || [null, null])[1];
 export const getKupIdFromCookie = () => (document.cookie.match(/^(?:.*;)?\s*kuplogged\s*=\s*([^;]+)(?:.*)?$/) || [null, null])[1];
