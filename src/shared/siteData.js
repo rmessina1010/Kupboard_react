@@ -12,7 +12,7 @@ const siteData = {
         copyright: 2020,
         siteName: 'Kupboard',
         author: 'Ray Messina Design',
-        authorURL: 'raymessinadesign.com'
+        authorURL: 'dev.raymessinadesign.com'
     },
     social:
         [{
