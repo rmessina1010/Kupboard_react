@@ -180,7 +180,7 @@ export class DashForm extends Component {
     }
 
     autofill(event) {
-        fetch('http://api.zippopotam.us/us/' + event.target.value)
+        fetch('https://api.zippopotam.us/us/' + event.target.value)
             .then(response => response.json())
             .then(location => {
                 if (location.places) {
