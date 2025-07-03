@@ -149,6 +149,11 @@ export class DashForm extends Component {
                 newStateProp = this.state.hours;
                 newStateProp[index].day = val;
                 break;
+
+            case "daysTo":
+                newStateProp = this.state.hours;
+                newStateProp[index].toDay = val;
+                break;
         }
 
         if (newStateProp) {
