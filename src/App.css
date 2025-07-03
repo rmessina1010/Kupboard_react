@@ -267,12 +267,12 @@ a.carousel-control-next, a.carousel-control-prev{
 	margin-bottom: 1.5em;
 }
 
-.comment-text .fa-close, .kup-hour .delday{
+.comment-text .fa-close, .kup-hour i.delday.fa-close{
 	position:absolute;
 	text-align: center;
 	top:.37em;
 	right: .75em;
-	opacity: 50%;
+	opacity: 50% !important;
 	border: 1px solid var(--secondary);
 	height: 1.5em;
 	width: 1.5em;
@@ -281,8 +281,8 @@ a.carousel-control-next, a.carousel-control-prev{
 	align-items: center;
 	justify-content: center;
 }
-.comment-text i.fa-close:hover{
-	opacity: 100%;
+.comment-text i.fa-close:hover,   i.fa-close.delday:hover{
+	opacity: 100% !important;
 }
 
 h5.dash-header{
