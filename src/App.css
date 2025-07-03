@@ -281,7 +281,10 @@ a.carousel-control-next, a.carousel-control-prev{
 	align-items: center;
 	justify-content: center;
 }
-.comment-text i.fa-close:hover{
+.comment-text .fa-close, .kup-hour i.fa-close.delday{
+	right: auto;
+}
+.comment-text i.fa-close:hover, .kup-hour i.fa-close.delday:hover{
 	opacity: 100%;
 }
 
