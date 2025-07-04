@@ -272,7 +272,7 @@ a.carousel-control-next, a.carousel-control-prev{
 	text-align: center;
 	top:.37em;
 	right: .75em;
-	opacity: 50% !important;
+	opacity: .5;
 	border: 1px solid var(--secondary);
 	height: 1.5em;
 	width: 1.5em;
@@ -285,7 +285,7 @@ a.carousel-control-next, a.carousel-control-prev{
 	right: -.5em;
 }
 .comment-text i.fa-close:hover, .kup-hour i.fa-close.delday:hover{
-	opacity: 100% !important;
+	opacity: 1;
 }
 
 h5.dash-header{
