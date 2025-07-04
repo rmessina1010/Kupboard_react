@@ -15,6 +15,16 @@ const DEFAULT_DASH_STATE = {
     kupData: null
 }
 
+const buildNewState = (kupboard)=>{
+    return {
+        kupData: kupboard.theKup,
+        kup: kupboard.theKup._id,
+        hours: kupboard.theKup.hours,
+        announce: kupboard.theKup.bulletins,
+        inventory: kupboard.theKup.inventory,
+    }
+};
+
 class DashboardPage extends Component {
     constructor(props) {
         super(props);
@@ -45,13 +55,7 @@ class DashboardPage extends Component {
                         return;
                     }
                     //let newState = (kupboard.err) ? DEFAULT_DASH_STATE :
-                    let newState = {
-                        kupData: kupboard.theKup,
-                        kup: kupboard.theKup._id,
-                        hours: kupboard.theKup.hours,
-                        announce: kupboard.theKup.bulletins,
-                        inventory: kupboard.theKup.inventory,
-                    };
+                    let newState = buildNewState(kupboard);
                     this.setState(newState);
                 })
                 .catch(err => {
@@ -142,16 +146,18 @@ class DashboardPage extends Component {
                         .catch(err => console.log(err));
                 }
             })
-            .then(() => {
-                newState.itemsToDel = [];
-                newState.annsToDel = [];
-                newState.hoursToDel = [];
+            .then(async () => {
+                // newState.itemsToDel = [];
+                // newState.annsToDel = [];
+                // newState.hoursToDel = [];
                 alert('Kupboard Updated!');
                 //this.setState(newState);
-                return newState;
+                const updatedState = await serverOps.dashRequest('', 'GET', null)
+                return buildNewState(updatedState);
             })
             .catch(err => {
                 console.log(err);
+                return {};
             });
         return newerState;
     }
