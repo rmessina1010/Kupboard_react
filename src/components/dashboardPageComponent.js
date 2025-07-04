@@ -147,13 +147,11 @@ class DashboardPage extends Component {
                 }
             })
             .then(async () => {
-                // newState.itemsToDel = [];
-                // newState.annsToDel = [];
-                // newState.hoursToDel = [];
                 alert('Kupboard Updated!');
-                //this.setState(newState);
-                const updatedState = await serverOps.dashRequest('', 'GET', null)
-                return buildNewState(updatedState);
+                const updatedStatePromise = await serverOps.dashRequest('', 'GET', null);
+                const updatedState =  buildNewState(updatedStatePromise);
+                this.setState(updatedState);
+                return updatedState;
             })
             .catch(err => {
                 console.log(err);
