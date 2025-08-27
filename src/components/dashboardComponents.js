@@ -339,7 +339,7 @@ export class DashForm extends Component {
                         <h5 className="dash-header">Images</h5>
                         <Row>
                             <Col xs="12" sm="4" md="6" className="align-items-center d-flex">
-                                <img src={serverOps.SERVER_LOC + this.state.img} alt={this.state.alt} className="img-thumbnail mx-auto d-block" />
+                                <img src={serverOps.STORAGE_LOC+ this.state.img} alt={this.state.alt} className="img-thumbnail mx-auto d-block" />
                             </Col>
                             <Col xs="12" sm="8" md="6">
                                 <Label className="d-block">Header Image</Label>

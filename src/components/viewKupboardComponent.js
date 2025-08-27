@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Card, CardTitle, CardText, CardBody, CardHeader } from 'reactstrap';
 import { ListSchedule } from './findKupboardComponent'
-import { SERVER_LOC } from '../shared/serverOps';
+import { STORAGE_LOC } from '../shared/serverOps';
 
 function KupboardView(props) {
 	let inventory = [];
@@ -14,7 +14,7 @@ function KupboardView(props) {
 		<React.Fragment>
 			<Row tag="dl" className="media align-items-top mt-3" id="kupboard-top">
 				<Col tag="dt" xs="12" md="4">
-					<img className="img-fluid  d-block img-thumbnail mb-3  mx-auto " src={SERVER_LOC + props.img} alt={props.alt} />
+					<img className="img-fluid  d-block img-thumbnail mb-3  mx-auto " src={STORAGE_LOC + props.img} alt={props.alt} />
 				</Col>
 				<Col tag="dt" xs="12" sm="6" md="4" className="text-center text-md-left">
 					<h5 className="h4 font-weight-light ">{props.name}</h5>
