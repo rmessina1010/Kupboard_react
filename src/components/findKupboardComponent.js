@@ -14,7 +14,7 @@ export class FindFormPlusList extends Component {
             city: null,
             state: null,
             zip: null,
-            kups: [],
+            kups: null,
             of: null
         };
         this.zipRef = React.createRef();
@@ -25,7 +25,7 @@ export class FindFormPlusList extends Component {
     componentDidMount() {
         serverOps.findRequest(null)
             .then(found => {
-                let of = Math.ceil(found.ofTotal / found.segmentSize);
+                let of = found.ofTotal ? Math.ceil(found.ofTotal / found.segmentSize)  : 0;
                 this.setState({ city: null, state: null, zip: null, kups: found.kupboards, of: of });
             })
             .catch(err => console.log(err));
@@ -118,6 +118,7 @@ export class FindForm extends Component {
 }
 
 export function KBList(props) {
+    if (props.list?.length === undefined) { return <div className="results-list text-center pb-3"> Awaiting Connection...</div>}
     return props.list.length ? (
         <ul className="results-list">
             {props.list.map(item => <KBListItem  {...item} />)}
