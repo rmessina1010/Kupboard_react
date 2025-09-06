@@ -118,7 +118,7 @@ export class FindForm extends Component {
 }
 
 export function KBList(props) {
-    if (props.list?.length === undefined) { return <div className="results-list text-center pb-3"> Awaiting Connection...</div>}
+    if (props.list?.length === undefined) { return <div className="results-list spinner text-center pb-3"> Awaiting Connection...</div>}
     return props.list.length ? (
         <ul className="results-list">
             {props.list.map(item => <KBListItem  {...item} />)}
