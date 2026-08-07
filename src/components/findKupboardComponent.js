@@ -164,8 +164,8 @@ export function ListSchedule({ hours }) {
                 hours ? hours.map(hour => {
                     return hour.day ?
                         (<li className="schedule">
-                            <strong>{hour.day + ( hour.toDay && hour.day !== hour.toDay  ? " - " + hour.toDay : "")}:&nbsp;</strong>
-                            <span> {hour.open} - {hour.close}</span>
+                            <strong itemprop="dayOfWeek">{hour.day + ( hour.toDay && hour.day !== hour.toDay  ? " - " + hour.toDay : "")}:&nbsp;</strong>
+                            <span><time itemprop="opens" content={hour.open}>{hour.open}</time> - <time itemprop="closes" content={hour.close}>{hour.close}</time></span>
                         </li>)
                         : null;
                 })
