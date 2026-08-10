@@ -32,7 +32,7 @@ export class ViewJumbo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            kupData: false,
+            kupData: null,
         }
     }
 
