@@ -10,7 +10,7 @@ class ViewKBPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            kupData: false,
+            kupData: null,
         }
     }
 
@@ -37,7 +37,13 @@ class ViewKBPage extends Component {
         //     if (kbItems['itemsIn_' + kup]) { inventory = kbItems['itemsIn_' + kup].inventory; }
         //     kupData = kbRoster['kup_' + kup];
         // }
-        return this.state.kupData ?
+        return this.state.kupData === null ?
+            (<React.Fragment>
+                <MainWrap>
+                    <h2 className="text-center py-4">Loading Kupboard</h2>
+                </MainWrap >
+            </React.Fragment>) : 
+            this.state.kupData ?
             (<React.Fragment>
                 <MainWrap>
                     <KupboardView announce={this.state.kupData.bulletins} {...this.state.kupData} />
