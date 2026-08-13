@@ -56,8 +56,8 @@ export class ViewJumbo extends Component {
         let errMess = "That Kupboard doesn't exist";
         kup = kup ? kup : {
             mast: "/assets/_default_mast.jpg",
-            mastAlt: "missing Kupboard",
-            name: "Oops!",
+            mastAlt: (kup === null ? "Loading " : "missing" )+" Kupboard",
+            name: kup === null ? "Please wait..." : "Oops!",
             details: errMess,
             share: null,
             missing: true
@@ -77,7 +77,7 @@ export class DashJumbo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            kupData: false,
+            kupData: null,
             refresh: this.props.refresh
         }
     }
@@ -108,8 +108,8 @@ export class DashJumbo extends Component {
         let detailText = kup ? "Edit your Kupboard here." : "Access Denied!";
         kup = kup ? kup : {
             mast: "/assets/_default_mast.jpg",
-            mastAlt: "missing Kupboard",
-            name: "Oops!",
+            mastAlt: (kup === null ? "Loading " : "missing" )+" Kupboard",
+            name: kup === null ? "Please wait..." : "Oops!",
             details: errMess,
             share: null,
             missing: true
