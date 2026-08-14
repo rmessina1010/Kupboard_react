@@ -13,7 +13,16 @@ import {
 //import { kbRoster } from '../shared/KBroster';
 import * as serverOps from '../shared/serverOps';
 
-
+function getNoKupDefaultObj(kup, errMess){
+    return {
+        mast: "/assets/_default_mast.jpg",
+        mastAlt: (kup === null ? "Loading " : "Missing" )+" Kupboard",
+        name: kup === null ? "Please wait..." : "Oops!",
+        details: kup === null ? "...waiting for Kupboard" : errMess,
+        share: null,
+        missing: true
+    }
+}
 
 export function BrandJumbo(props) {
     return (
@@ -54,14 +63,7 @@ export class ViewJumbo extends Component {
         let props = this.props;
         let kup = this.state.kupData;
         let errMess = "That Kupboard doesn't exist";
-        kup = kup ? kup : {
-            mast: "/assets/_default_mast.jpg",
-            mastAlt: (kup === null ? "Loading " : "Missing" )+" Kupboard",
-            name: kup === null ? "Please wait..." : "Oops!",
-            details: errMess,
-            share: null,
-            missing: true
-        };
+        kup = kup ? kup : getNoKupDefaultObj(kup, errMess);
         let btnText = "Share Page";
         let detailText = kup.details;
         let share = kup.share ? { txt: btnText, url: kup.share, attrs: { target: '_blank' } } : null;
@@ -106,14 +108,7 @@ export class DashJumbo extends Component {
             errMess = "Improper Kupboard access."
         }
         let detailText = kup ? "Edit your Kupboard here." : "Access Denied!";
-        kup = kup ? kup : {
-            mast: "/assets/_default_mast.jpg",
-            mastAlt: (kup === null ? "Loading " : "Missing" )+" Kupboard",
-            name: kup === null ? "Please wait..." : "Oops!",
-            details: errMess,
-            share: null,
-            missing: true
-        };
+        kup = kup ? kup : getNoKupDefaultObj(kup, errMess);
         let btnText = "View Kupboard";
         if (kup && !kup.missing) { kup.share = '/view/' + props.match.params.kup; }
         let share = kup.share ? { txt: btnText, url: kup.share, attrs: { target: '_blank' } } : null;
