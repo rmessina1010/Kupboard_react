@@ -56,7 +56,7 @@ export class ViewJumbo extends Component {
         let errMess = "That Kupboard doesn't exist";
         kup = kup ? kup : {
             mast: "/assets/_default_mast.jpg",
-            mastAlt: (kup === null ? "Loading " : "missing" )+" Kupboard",
+            mastAlt: (kup === null ? "Loading " : "Missing" )+" Kupboard",
             name: kup === null ? "Please wait..." : "Oops!",
             details: errMess,
             share: null,
@@ -108,7 +108,7 @@ export class DashJumbo extends Component {
         let detailText = kup ? "Edit your Kupboard here." : "Access Denied!";
         kup = kup ? kup : {
             mast: "/assets/_default_mast.jpg",
-            mastAlt: (kup === null ? "Loading " : "missing" )+" Kupboard",
+            mastAlt: (kup === null ? "Loading " : "Missing" )+" Kupboard",
             name: kup === null ? "Please wait..." : "Oops!",
             details: errMess,
             share: null,
