@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 function KBPagination(props) {
