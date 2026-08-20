@@ -23,6 +23,16 @@ let userRoster = {
         id: "kup_5",
         email: "rs@email.com",
         password: "fakepass5"
+    },
+    "Test Kupboard #6": {
+        id: "kup_6",
+        email: "rs@email.com",
+        password: "fakepass6"
+    },
+    "Test Kupboard #7": {
+        id: "kup_7",
+        email: "rs@email.com",
+        password: "fakepass7"
     }
 }
 
