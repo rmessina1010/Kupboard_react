@@ -27,3 +27,31 @@ export function DaySelect({ name, id, classes, required, value, passRef, change,
         </Input>
     );
 }
+
+
+
+
+export function GeneralSelect({ options = [], deflt = '', name, id, classes, required, value, passRef, change, index, labelKey, valueKey}) {
+    let selClass = "custom-select" + (classes ? classes : '');
+    if  (!deflt && !Array.isArray(options)) { return; }
+    const blankOption = deflt && typeof deflt === 'string' ?   <option value="">{deflt}</option> : null;
+    return (
+        <Input 
+            type="select" 
+            name={name} 
+            id={id} 
+            className={selClass} 
+            required={required} 
+            value={value} 
+            innerRef={passRef}
+            onChange={(event) => change(event, index)}
+        >
+            {blankOption}
+            {options.map( option => {
+                const value = valueKey ?  option[valueKey] : option;
+                const label = labelKey ?  option[labelKey] : value;
+                return <option key={value+label} value={value}>{label}</option> ;
+            })}  
+        </Input>
+    );
+}
