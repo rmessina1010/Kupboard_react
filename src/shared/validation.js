@@ -35,7 +35,7 @@ class validator {
 
     maxLen = (str, max = 1) => { return (str + '').trim().length <= max ? true : false; }
 
-
+    isTrimmed = (str)=> str === str.trim();
 
     validate(data = {}, fields = null) {
         if (!fields) { fields = this.fields; }
