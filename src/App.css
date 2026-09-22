@@ -37,6 +37,9 @@ body {
 
 }
 
+.brand-wrap, .branding {
+	background: #a5a5a5;
+}
 
 .prefoot {
 	background: #575757;
